@@ -42,7 +42,9 @@ class GetDailyFlightsRepository
     {
         $query = "
                     SELECT DISTINCT cast(reference_timestamp AS date)
-                    FROM daily_flights;
+                    FROM daily_flights
+                    WHERE takeoff_airfield = '$airfieldName'
+                    OR landing_airfield = '$airfieldName';
                 ";
         return $this->connection->query($query)->fetchAll();
     }
