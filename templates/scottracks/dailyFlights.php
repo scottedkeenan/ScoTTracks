@@ -14,7 +14,7 @@
     <title>ScoTTracks</title>
 </head>
 <body>
-<a href="/"><h1>ScoTTracks</h1></a>
+<a href="/" class="btn btn-primary">back</a>
 
 <div class="d-flex flex-row">
     <?php

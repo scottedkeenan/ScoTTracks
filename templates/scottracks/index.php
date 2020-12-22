@@ -14,23 +14,52 @@
     <title>ScoTTracks</title>
 </head>
 <body>
-<a href="/"><h1>ScoTTracks</h1></a>
 
-<ul class="list-group">
-    <?php
-    foreach ($data['airfield_names'] as $airfieldName):
-        $flown_today = in_array($airfieldName, array_keys($data['flown_today']));
-        $url = sprintf('/%s', $airfieldName);
-        ?>
-    <a href="<?php echo $url;?>" class="list-group-item list-group-item-action">
-        <?php echo ucwords(str_replace('_', ' ', $airfieldName)) ?>
-        <?php if ($flown_today): ?>
-        <span class="badge badge-primary badge-pill"><?php echo $data['flown_today'][$airfieldName]; ?></span>
-        <?php endif; ?>
-    </a>
-    <? endforeach; ?>
-<!--    <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>-->
-</ul>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h2 class="display-4">Welcome to my tracking site.</h2>
+        <p>The intention is to provide basic automated flight logging for gliding clubs and pilots, based on the data from the Open Glider Network, covering Great Britain. However, sometimes I need to test the site and often the days are short and the weather bad in the UK, so occasionally sites from around the world may also appear.</p>
+        <p>Below should be a list of gliding sites, these are all the sites for which I currently have logs, if there is a blue circle with a number next to a site name, launches have been detected there today. Click a site name to take a look.</p>
+        <small>Disclaimer: data may (will) be incorrect or missing.</small>
+    </div>
+</div>
+
+<div class="container col-sm-">
+    <div class="row">
+        <div class="col-sm">
+            <ul class="list-group">
+                <?php
+                foreach ($data['airfield_names'] as $airfieldName):
+                    $flown_today = in_array($airfieldName, array_keys($data['flown_today']));
+                    $url = sprintf('/%s', $airfieldName);
+                    ?>
+                    <a href="<?php echo $url;?>" class="list-group-item list-group-item-action">
+                        <?php echo ucwords(str_replace('_', ' ', $airfieldName)) ?>
+                        <?php if ($flown_today): ?>
+                            <span class="badge badge-primary badge-pill"><?php echo $data['flown_today'][$airfieldName]; ?></span>
+                        <?php endif; ?>
+                    </a>
+                <? endforeach; ?>
+            </ul>
+        </div>
+<!--        <div class="col-sm">-->
+<!--            <ul class="list-group">-->
+<!--                --><?php
+//                foreach ($data['airfield_names'] as $airfieldName):
+//                    $flown_today = in_array($airfieldName, array_keys($data['flown_today']));
+//                    $url = sprintf('/%s', $airfieldName);
+//                    ?>
+<!--                    <a href="--><?php //echo $url;?><!--" class="list-group-item list-group-item-action">-->
+<!--                        --><?php //echo ucwords(str_replace('_', ' ', $airfieldName)) ?>
+<!--                        --><?php //if ($flown_today): ?>
+<!--                            <span class="badge badge-primary badge-pill">--><?php //echo $data['flown_today'][$airfieldName]; ?><!--</span>-->
+<!--                        --><?php //endif; ?>
+<!--                    </a>-->
+<!--                --><?// endforeach; ?>
+<!--            </ul>-->
+<!--        </div>-->
+    </div>
+</div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
