@@ -2,18 +2,18 @@
 
 namespace App\Action;
 
-use App\Domain\Scottracks\Service\GetDailyFlights;
+use App\Domain\Scottracks\Service\DailyFlights;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\PhpRenderer;
 
 final class AirfieldNameAction
 {
-    private $getDailyFlights;
+    private $dailyFlights;
 
-    public function __construct(GetDailyFlights $getDailyFlights)
+    public function __construct(DailyFlights $dailyFlights)
     {
-        $this->getDailyFlights = $getDailyFlights;
+        $this->dailyFlights = $dailyFlights;
     }
 
     public function __invoke(
@@ -33,12 +33,12 @@ final class AirfieldNameAction
         }
 
         //invoke the domain
-        $data['flight_data'] = $this->getDailyFlights->getDailyFlights($args['airfield_name'], $showDate);
-        $data['dates'] = $this->getDailyFlights->getDailyFlightDatesForAirfield($args['airfield_name']);
+        $data['flight_data'] = $this->dailyFlights->getDailyFlights($args['airfield_name'], $showDate);
+        $data['dates'] = $this->dailyFlights->getDailyFlightDatesForAirfield($args['airfield_name']);
         $data['show_date'] = $showDate;
 
         $renderer = new PhpRenderer('../templates/scottracks');
-        return $renderer->render($response, "index.php", $data);
+        return $renderer->render($response, "dailyFlights.php", $data);
     }
 
 }

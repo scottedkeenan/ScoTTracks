@@ -8,7 +8,7 @@ use PDO;
 /**
  * Repository.
  */
-class GetDailyFlightsRepository
+class DailyFlightsRepository
 {
     /**
      * @var PDO The database connection
@@ -47,6 +47,42 @@ class GetDailyFlightsRepository
                     OR landing_airfield = '$airfieldName';
                 ";
         return $this->connection->query($query)->fetchAll();
+    }
+
+    public function getDistinctAirfieldNames(): array
+    {
+        $query = "
+                    SELECT DISTINCT takeoff_airfield
+                    FROM daily_flights
+                    WHERE takeoff_airfield IS NOT NULL
+                    AND takeoff_airfield != 'unknown'
+                ";
+        $data = $this->connection->query($query)->fetchAll();
+
+        foreach ($data as $row) {
+            $result[] = $row['takeoff_airfield'];
+        }
+        return $result;
+
+    }
+
+    public function getDistinctAirfieldNamesFlownToday(): array
+    {
+        $query = "
+                    SELECT takeoff_airfield, COUNT(takeoff_airfield) as `num`
+                    FROM daily_flights
+                    WHERE takeoff_airfield IS NOT NULL
+                    AND takeoff_airfield != 'unknown'
+                    AND daily_flights.takeoff_timestamp > current_date
+                    GROUP BY takeoff_airfield
+
+                ";
+        $result = [];
+        $data = $this->connection->query($query)->fetchAll();
+        foreach ($data as $row) {
+            $result[$row['takeoff_airfield']] = $row['num'];
+        }
+        return $result;
     }
 }
 

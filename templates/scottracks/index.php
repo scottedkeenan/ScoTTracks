@@ -1,6 +1,5 @@
 <!doctype html>
 
-<?php include "db.php"; ?>
 <?php date_default_timezone_set('Europe/London'); ?>
 
 <html lang="en">
@@ -15,132 +14,23 @@
     <title>ScoTTracks</title>
 </head>
 <body>
-<h1>ScoTTracks</h1>
+<a href="/"><h1>ScoTTracks</h1></a>
 
-<div class="d-flex flex-row">
+<ul class="list-group">
     <?php
-    $dates = [];
-    sort($dates);
-    foreach ($data['dates'] as $row) {
-        array_push($dates, $row['cast(reference_timestamp AS date)']);
-    }
-    array_push($dates, date('Y-m-d'));
-    $dates = array_unique($dates);
-
-    function date_sort($a, $b) {
-        return strtotime($b) - strtotime($a);
-    }
-    usort($dates, "date_sort");
-
-    $dateIndex = array_search($data['show_date'] ,$dates);
-
-    if ($dateIndex +1 < count($dates)) {
+    foreach ($data['airfield_names'] as $airfieldName):
+        $flown_today = in_array($airfieldName, array_keys($data['flown_today']));
+        $url = sprintf('/%s', $airfieldName);
         ?>
-        <div class="p-2">
-            <a href="<?php echo isset($data['airfield_name']) ? $data['airfield_name'] . '/' . $dates[$dateIndex+1] : $dates[$dateIndex+1]?>">prev</a>
-        </div>
-    <?php } else {?>
-        <div class="p-2"></div>
-    <?php } ?>
-    <div class="p-2"><?php echo $data['show_date'] ?></div>
-    <?php
-    if ($dateIndex +1 > 1 ) {
-        ?>
-        <div class="p-2">
-            <a href="<?php echo isset($data['airfield_name']) ? $data['airfield_name'] . '/' . $dates[$dateIndex-1] : $dates[$dateIndex-1]?>">next</a>
-        </div>
-    <?php } else {?>
-        <div class="col-2"></div>
-    <?php } ?>
-</div>
-
-
-<!--<form method="post" action="index.php">-->
-<!--    <select id="date" name="dateOption">-->
-<!--        --><?php
-//        while($row = mysqli_fetch_assoc($select_all_dates_query)) { ?>
-<!--            <option value="--><?php //echo $row['cast(reference_timestamp as date)']; ?><!--">--><?php //echo $row['cast(reference_timestamp as date)'];?><!--</option>-->
-<!--        --><?php //}?>
-<!--    </select>-->
-<!--    <input type="submit" value="Filter"/>-->
-<!--</form>-->
-
-
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Registration / ID</th>
-        <th scope="col">Launched</th>
-        <th scope="col">Landed</th>
-        <th scope="col">Duration (H:M:S)</th>
-        <th scope="col">Launch Height (ft)</th>
-<!--        <th scope="col">Launch Location</th>-->
-<!--        <th scope="col">Landing Location</th>-->
-        <!--        <th scope="col">status</th>-->
-    </tr>
-    </thead>
-    <tbody>
-
-    <?php
-
-    $rowCount = 1;
-
-    foreach ($data['flight_data'] as $row) {
-        if (is_null($row['takeoff_timestamp']) && is_null($row['landing_timestamp'])) {
-            continue;
-        }
-
-        $takeoff_time = $row['takeoff_timestamp'] ? new DateTime('@' . strtotime($row['takeoff_timestamp'])) : null;
-        $takeoff_airfield = $row['takeoff_airfield'] ? $row['takeoff_airfield']: '--';
-
-
-        $landing_time = $row['landing_timestamp'] ? new DateTime('@' . strtotime($row['landing_timestamp'])) : null;
-        $landing_airfield = $row['landing_airfield'] ? $row['landing_airfield']: '--';
-
-        $registration = $row['registration'] != 'UNKNOWN' ? $row['registration'] : $row['address'];
-        $takeoff_timestamp = $takeoff_time ? $takeoff_time->format('H:i:s') : '--';
-        $landing_timestamp = $landing_time ? $landing_time->format('H:i:s') : $row['status'];
-        $launch_height = round($row['launch_height'] * 3.28084);
-        if ($takeoff_time) {
-            $graph_path = '/graphs/' . $registration . '-' . $takeoff_time->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
-            if (!file_exists('.' . $graph_path)) {
-                $graph_path = null;
-            }
-        } else {
-            $graph_path = null;
-        }
-        if ($takeoff_time && $landing_time) {
-            $duration = date_diff($takeoff_time, $landing_time)->format('%h:%I:%S');
-        } elseif ($takeoff_time && !$landing_time) {
-            $nowTime = new DateTime();
-            $duration = date_diff($takeoff_time, $nowTime)->format('%h:%I:%S');
-        } elseif (!$takeoff_time && $landing_time) {
-            $duration = '--';
-        }
-//        $location = $row['airfield'];
-//        $status = $row['status'];
-        ?>
-
-        <tr>
-            <th scope="row"><?php echo $rowCount; ?></th>
-            <td><?php echo !is_null($graph_path) ? '<a href="' . $graph_path . '">' : ''?><?php echo $registration; ?></a></td>
-            <td><?php echo $takeoff_timestamp; ?></td>
-            <td><?php echo $landing_timestamp; ?></td>
-            <td><?php echo $duration; ?></td>
-            <td><?php echo $launch_height; ?></td>
-<!--            <td>--><?php //echo $takeoff_airfield; ?><!--</td>-->
-<!--            <td>--><?php //echo $landing_airfield; ?><!--</td>-->
-            <!--            <td>--><?php //echo ucwords($location); ?><!--</td>-->
-            <!--            <td>--><?php //echo $status; ?><!--</td>-->
-        </tr>
-
-        <?php
-        $rowCount ++;
-    }
-    ?>
-    </tbody>
-</table>
+    <a href="<?php echo $url;?>" class="list-group-item list-group-item-action">
+        <?php echo ucwords(str_replace('_', ' ', $airfieldName)) ?>
+        <?php if ($flown_today): ?>
+        <span class="badge badge-primary badge-pill"><?php echo $data['flown_today'][$airfieldName]; ?></span>
+        <?php endif; ?>
+    </a>
+    <? endforeach; ?>
+<!--    <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>-->
+</ul>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
