@@ -18,8 +18,7 @@
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
         <h2 class="display-4">Welcome to my tracking site.</h2>
-        <p>The intention is to provide basic automated flight logging for gliding clubs and pilots, based on the data from the Open Glider Network, covering Great Britain. However, sometimes I need to test the site and often the days are short and the weather bad in the UK, so occasionally sites from around the world may also appear.</p>
-        <p>Below should be a list of gliding sites, these are all the sites for which I currently have logs, if there is a blue circle with a number next to a site name, launches have been detected there today. Click a site name to take a look.</p>
+        <p>Below should be a list of gliding clubs or sites for which logs exist. If there is a number next to a site name, launches have been detected there today. Click a site name to take a look.</p>
         <small>Disclaimer: data may (will) be incorrect or missing.</small>
     </div>
 </div>
@@ -29,35 +28,26 @@
         <div class="col-sm">
             <ul class="list-group">
                 <?php
-                foreach ($data['airfield_names'] as $airfieldName):
-                    $flown_today = in_array($airfieldName, array_keys($data['flown_today']));
+                foreach ($data['flown_today'] as $airfieldName=>$flights):
                     $url = sprintf('/%s', $airfieldName);
                     ?>
                     <a href="<?php echo $url;?>" class="list-group-item list-group-item-action">
                         <?php echo ucwords(str_replace('_', ' ', $airfieldName)) ?>
-                        <?php if ($flown_today): ?>
-                            <span class="badge badge-primary badge-pill"><?php echo $data['flown_today'][$airfieldName]; ?></span>
-                        <?php endif; ?>
+                        <span class="badge badge-primary badge-pill"><?php echo $flights; ?></span>
                     </a>
+                <? endforeach; ?>
+                <?php
+                sort($data['airfield_names']);
+                foreach ($data['airfield_names'] as $airfieldName):
+                    if (!in_array($airfieldName, array_keys($data['flown_today']))):
+                        $url = sprintf('/%s', $airfieldName); ?>
+                        <a href="<?php echo $url;?>" class="list-group-item list-group-item-action">
+                            <?php echo ucwords(str_replace('_', ' ', $airfieldName)) ?>
+                        </a>
+                    <?php endif; ?>
                 <? endforeach; ?>
             </ul>
         </div>
-<!--        <div class="col-sm">-->
-<!--            <ul class="list-group">-->
-<!--                --><?php
-//                foreach ($data['airfield_names'] as $airfieldName):
-//                    $flown_today = in_array($airfieldName, array_keys($data['flown_today']));
-//                    $url = sprintf('/%s', $airfieldName);
-//                    ?>
-<!--                    <a href="--><?php //echo $url;?><!--" class="list-group-item list-group-item-action">-->
-<!--                        --><?php //echo ucwords(str_replace('_', ' ', $airfieldName)) ?>
-<!--                        --><?php //if ($flown_today): ?>
-<!--                            <span class="badge badge-primary badge-pill">--><?php //echo $data['flown_today'][$airfieldName]; ?><!--</span>-->
-<!--                        --><?php //endif; ?>
-<!--                    </a>-->
-<!--                --><?// endforeach; ?>
-<!--            </ul>-->
-<!--        </div>-->
     </div>
 </div>
 

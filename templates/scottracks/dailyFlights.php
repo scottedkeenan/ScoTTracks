@@ -14,7 +14,10 @@
     <title>ScoTTracks</title>
 </head>
 <body>
-<a href="/" class="btn btn-primary">back</a>
+<div>
+    <a href="/" class="btn btn-primary">back</a>
+</div>
+
 
 <div class="d-flex flex-row">
     <?php
