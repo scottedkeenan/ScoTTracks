@@ -2,6 +2,18 @@
 
 <?php date_default_timezone_set('Europe/London'); ?>
 
+<?php
+
+function url($url) {
+    $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);
+    $url = trim($url, "-");
+    $url = iconv("utf-8", "us-ascii//TRANSLIT", $url);
+    $url = strtolower($url);
+    $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
+    return $url;
+}
+?>
+
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -29,7 +41,8 @@
             <ul class="list-group">
                 <?php
                 foreach ($data['flown_today'] as $airfieldName=>$flights):
-                    $url = sprintf('/%s', $airfieldName);
+                    $clean_url = url($airfieldName);
+                    $url = sprintf('/%s', $clean_url);
                     ?>
                     <a href="<?php echo $url;?>" class="list-group-item list-group-item-action">
                         <?php echo ucwords(str_replace('_', ' ', $airfieldName)) ?>
@@ -40,7 +53,8 @@
                 sort($data['airfield_names']);
                 foreach ($data['airfield_names'] as $airfieldName):
                     if (!in_array($airfieldName, array_keys($data['flown_today']))):
-                        $url = sprintf('/%s', $airfieldName); ?>
+                        $clean_url = url($airfieldName);
+                        $url = sprintf('/%s', $clean_url); ?>
                         <a href="<?php echo $url;?>" class="list-group-item list-group-item-action">
                             <?php echo ucwords(str_replace('_', ' ', $airfieldName)) ?>
                         </a>

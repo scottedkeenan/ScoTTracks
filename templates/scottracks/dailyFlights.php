@@ -77,9 +77,7 @@
         <th scope="col">Landed</th>
         <th scope="col">Duration (H:M:S)</th>
         <th scope="col">Launch Height (ft)</th>
-<!--        <th scope="col">Launch Location</th>-->
-<!--        <th scope="col">Landing Location</th>-->
-        <!--        <th scope="col">status</th>-->
+        <th scope="col">Launch Method</th>
     </tr>
     </thead>
     <tbody>
@@ -120,8 +118,13 @@
         } elseif (!$takeoff_time && $landing_time) {
             $duration = '--';
         }
-//        $location = $row['airfield'];
-//        $status = $row['status'];
+        if ($row['aircraft_type'] == '2') {
+            $launch_type = 'Tug';
+        } elseif ($row['launch_type'] and $row['aircraft_type'] == '1') {
+            $launch_type = ucwords($row['launch_type']);
+        } else {
+            $launch_type = '--';
+        }
         ?>
 
         <tr>
@@ -131,10 +134,7 @@
             <td><?php echo $landing_timestamp; ?></td>
             <td><?php echo $duration; ?></td>
             <td><?php echo $launch_height; ?></td>
-<!--            <td>--><?php //echo $takeoff_airfield; ?><!--</td>-->
-<!--            <td>--><?php //echo $landing_airfield; ?><!--</td>-->
-            <!--            <td>--><?php //echo ucwords($location); ?><!--</td>-->
-            <!--            <td>--><?php //echo $status; ?><!--</td>-->
+            <td><?php echo $launch_type; ?></td>
         </tr>
 
         <?php
