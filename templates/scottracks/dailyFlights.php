@@ -122,7 +122,12 @@
             $launch_type = 'Tug';
         } elseif ($row['launch_type'] and $row['aircraft_type'] == '1') {
             if ($row['launch_type'] == 'aerotow') {
-                $launch_type = ucwords($row['launch_type']) . ' / SL';
+                if (isset($row['tug_registration'])) {
+                    $launch_type = ucwords($row['launch_type']) . ' / ' . $row['tug_registration'];
+                } else {
+                    $launch_type = ucwords($row['launch_type']) . ' / SL';
+                }
+
             } else {
                 $launch_type = ucwords($row['launch_type']);
             }
