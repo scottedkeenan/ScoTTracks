@@ -28,6 +28,7 @@ final class AirfieldNameAction
 //            return $response->withHeader('Location', '/')->withStatus(404);
             $showDate = $args['date'];
         } else {
+            date_default_timezone_set('Europe/London');
             $showDate = date('Y-m-d');
             $data['airfield_name'] = $args['airfield_name'];
         }

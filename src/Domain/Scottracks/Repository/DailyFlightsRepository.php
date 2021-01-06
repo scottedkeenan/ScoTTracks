@@ -52,15 +52,18 @@ class DailyFlightsRepository
     public function getDistinctAirfieldNames(): array
     {
         $query = "
-                    SELECT DISTINCT takeoff_airfield
+                    SELECT DISTINCT takeoff_airfield, nice_name
                     FROM daily_flights
+                    INNER JOIN airfields ON daily_flights.takeoff_airfield = airfields.name
                     WHERE takeoff_airfield IS NOT NULL
                     AND takeoff_airfield != 'unknown'
                 ";
         $data = $this->connection->query($query)->fetchAll();
 
+        $result = [];
+
         foreach ($data as $row) {
-            $result[] = $row['takeoff_airfield'];
+            $result[$row['takeoff_airfield']] = $row['nice_name'];
         }
         return $result;
 

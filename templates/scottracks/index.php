@@ -45,18 +45,18 @@ function url($url) {
                     $url = sprintf('/%s', $clean_url);
                     ?>
                     <a href="<?php echo $url;?>" class="list-group-item list-group-item-action">
-                        <?php echo ucwords(str_replace('_', ' ', $airfieldName)) ?>
+                        <?php echo ucwords(strtolower($data['airfield_names'][$airfieldName])); ?>
                         <span class="badge badge-primary badge-pill"><?php echo $flights; ?></span>
                     </a>
                 <? endforeach; ?>
                 <?php
-                sort($data['airfield_names']);
-                foreach ($data['airfield_names'] as $airfieldName):
+                asort($data['airfield_names']);
+                foreach ($data['airfield_names'] as $airfieldName => $niceName):
                     if (!in_array($airfieldName, array_keys($data['flown_today']))):
                         $clean_url = url($airfieldName);
                         $url = sprintf('/%s', $clean_url); ?>
                         <a href="<?php echo $url;?>" class="list-group-item list-group-item-action">
-                            <?php echo ucwords(str_replace('_', ' ', $airfieldName)) ?>
+                            <?php echo ucwords(strtolower($niceName))?>
                         </a>
                     <?php endif; ?>
                 <? endforeach; ?>
