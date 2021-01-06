@@ -2,24 +2,24 @@
 
 namespace App\Domain\Scottracks\Service;
 
-use App\Domain\Scottracks\Repository\GetDailyFlightsRepository;
+use App\Domain\Scottracks\Repository\DailyFlightsRepository;
 
 /**
  * Service.
  */
-final class GetDailyFlights
+final class DailyFlights
 {
     /**
-     * @var GetDailyFlightsRepository
+     * @var DailyFlightsRepository
      */
     private $repository;
 
     /**
      * The constructor.
      *
-     * @param GetDailyFlightsRepository $repository The repository
+     * @param DailyFlightsRepository $repository The repository
      */
-    public function __construct(GetDailyFlightsRepository $repository)
+    public function __construct(DailyFlightsRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -44,5 +44,27 @@ final class GetDailyFlights
         //$this->logger->info(sprintf('User created successfully: %s', $userId));
 
         return $dailyFLightDates;
+    }
+
+    public function getDistinctAirfieldNames(): array
+    {
+        //get daily flight dates
+        $airfieldNames = $this->repository->getDistinctAirfieldNames();
+
+        // Logging here: User created successfully
+        //$this->logger->info(sprintf('User created successfully: %s', $userId));
+
+        return $airfieldNames;
+    }
+
+    public function getDistinctAirfieldNamesFlownToday(): array
+    {
+        //get daily flight dates
+        $airfieldNames = $this->repository->getDistinctAirfieldNamesFlownToday();
+
+        // Logging here: User created successfully
+        //$this->logger->info(sprintf('User created successfully: %s', $userId));
+
+        return $airfieldNames;
     }
 }
