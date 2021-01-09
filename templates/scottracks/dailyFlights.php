@@ -68,90 +68,97 @@
 <!--</form>-->
 
 
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Registration / ID</th>
-        <th scope="col">Launched</th>
-        <th scope="col">Landed</th>
-        <th scope="col">Duration (H:M:S)</th>
-        <th scope="col">Launch Height (ft)</th>
-        <th scope="col">Launch Method</th>
-    </tr>
-    </thead>
-    <tbody>
-
-    <?php
-
-    $rowCount = 1;
-
-    foreach ($data['flight_data'] as $row) {
-        if (is_null($row['takeoff_timestamp']) && is_null($row['landing_timestamp'])) {
-            continue;
-        }
-
-        $takeoff_time = $row['takeoff_timestamp'] ? new DateTime('@' . strtotime($row['takeoff_timestamp'])) : null;
-        $takeoff_airfield = $row['takeoff_airfield'] ? $row['takeoff_airfield']: '--';
-
-
-        $landing_time = $row['landing_timestamp'] ? new DateTime('@' . strtotime($row['landing_timestamp'])) : null;
-        $landing_airfield = $row['landing_airfield'] ? $row['landing_airfield']: '--';
-
-        $registration = $row['registration'] != 'UNKNOWN' ? $row['registration'] : $row['address'];
-        $takeoff_timestamp = $takeoff_time ? $takeoff_time->format('H:i:s') : '--';
-        $landing_timestamp = $landing_time ? $landing_time->format('H:i:s') : $row['status'];
-        $launch_height = round($row['launch_height'] * 3.28084);
-        if ($takeoff_time) {
-            $graph_path = '/graphs/' . $registration . '-' . $takeoff_time->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
-            if (!file_exists('.' . $graph_path)) {
-                $graph_path = null;
-            }
-        } else {
-            $graph_path = null;
-        }
-        if ($takeoff_time && $landing_time) {
-            $duration = date_diff($takeoff_time, $landing_time)->format('%h:%I:%S');
-        } elseif ($takeoff_time && !$landing_time) {
-            $nowTime = new DateTime();
-            $duration = date_diff($takeoff_time, $nowTime)->format('%h:%I:%S');
-        } elseif (!$takeoff_time && $landing_time) {
-            $duration = '--';
-        }
-        if ($row['aircraft_type'] == '2') {
-            $launch_type = 'Tug';
-        } elseif ($row['launch_type'] and $row['aircraft_type'] == '1') {
-            if ($row['launch_type'] == 'aerotow') {
-                if (isset($row['tug_registration'])) {
-                    $launch_type = ucwords($row['launch_type']) . ' / ' . $row['tug_registration'];
-                } else {
-                    $launch_type = ucwords($row['launch_type']) . ' / SL';
-                }
-
-            } else {
-                $launch_type = ucwords($row['launch_type']);
-            }
-        } else {
-            $launch_type = '--';
-        }
-        ?>
-
+<div class="table-responsive">
+    <table class="table">
+        <thead>
         <tr>
-            <th scope="row"><?php echo $rowCount; ?></th>
-            <td><?php echo !is_null($graph_path) ? '<a href="' . $graph_path . '">' : ''?><?php echo $registration; ?></a></td>
-            <td><?php echo $takeoff_timestamp; ?></td>
-            <td><?php echo $landing_timestamp; ?></td>
-            <td><?php echo $duration; ?></td>
-            <td><?php echo $launch_height; ?></td>
-            <td><?php echo $launch_type; ?></td>
+            <th scope="col">#</th>
+            <th scope="col">Registration / ID</th>
+            <th scope="col">Launched</th>
+            <th scope="col">Landed</th>
+            <th scope="col">Duration (H:M:S)</th>
+            <th scope="col">Launch Height (ft)</th>
+            <th scope="col">Launch Method</th>
         </tr>
+        </thead>
+        <tbody>
 
         <?php
-        $rowCount ++;
-    }
-    ?>
-    </tbody>
-</table>
+
+        $rowCount = 1;
+
+        foreach ($data['flight_data'] as $row) {
+            if (is_null($row['takeoff_timestamp']) && is_null($row['landing_timestamp'])) {
+                continue;
+            }
+
+            $takeoff_time = $row['takeoff_timestamp'] ? new DateTime('@' . strtotime($row['takeoff_timestamp'])) : null;
+            $takeoff_airfield = $row['takeoff_airfield'] ? $row['takeoff_airfield']: '--';
+
+
+            $landing_time = $row['landing_timestamp'] ? new DateTime('@' . strtotime($row['landing_timestamp'])) : null;
+            $landing_airfield = $row['landing_airfield'] ? $row['landing_airfield']: '--';
+
+            $registration = $row['registration'] != 'UNKNOWN' ? $row['registration'] : $row['address'];
+            $takeoff_timestamp = $takeoff_time ? $takeoff_time->format('H:i:s') : '--';
+            $landing_timestamp = $landing_time ? $landing_time->format('H:i:s') : $row['status'];
+            $launch_height = round($row['launch_height'] * 3.28084);
+            if ($takeoff_time) {
+                $graph_path = '/graphs/' . $registration . '-' . $takeoff_time->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
+                if (!file_exists('.' . $graph_path)) {
+                    $graph_path = null;
+                }
+            } else {
+                $graph_path = null;
+            }
+            if ($takeoff_time && $landing_time) {
+                $duration = date_diff($takeoff_time, $landing_time)->format('%h:%I:%S');
+            } elseif ($takeoff_time && !$landing_time) {
+                $nowTime = new DateTime();
+                $duration = date_diff($takeoff_time, $nowTime)->format('%h:%I:%S');
+            } elseif (!$takeoff_time && $landing_time) {
+                $duration = '--';
+            }
+            if ($row['aircraft_type'] == '2') {
+                if (isset($row['tug_registration'])) {
+                    $launch_type = 'Tug for ' . $row['tug_registration'];
+                } else {
+                    $launch_type = 'Tug';
+                }
+            } elseif ($row['launch_type'] and $row['aircraft_type'] == '1') {
+                if ($row['launch_type'] == 'aerotow_glider') {
+                    if (isset($row['tug_registration'])) {
+                        $launch_type = 'Aerotowed by ' . $row['tug_registration'];
+                    }
+                } elseif ($row['launch_type'] == 'aerotow_pair') {
+                    $launch_type = 'Aerotow with ' . $row['tug_registration'];
+                } elseif ($row['launch_type'] == 'aerotow_sl') {
+                    $launch_type = 'Aerotow / SL';
+                } else {
+                    $launch_type = ucwords($row['launch_type']);
+                }
+            } else {
+                $launch_type = '--';
+            }
+            ?>
+
+            <tr>
+                <th scope="row"><?php echo $rowCount; ?></th>
+                <td><?php echo !is_null($graph_path) ? '<a href="' . $graph_path . '">' : ''?><?php echo $registration; ?></a></td>
+                <td><?php echo $takeoff_timestamp; ?></td>
+                <td><?php echo $landing_timestamp; ?></td>
+                <td><?php echo $duration; ?></td>
+                <td><?php echo $launch_height; ?></td>
+                <td><?php echo $launch_type; ?></td>
+            </tr>
+
+            <?php
+            $rowCount ++;
+        }
+        ?>
+        </tbody>
+    </table>
+</div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
