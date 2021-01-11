@@ -2,16 +2,16 @@
 
 namespace App\Action;
 
-use App\Domain\Scottracks\Service\DailyFlights;
+use App\Domain\Scottracks\Service\DailyFlightsService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\PhpRenderer;
 
-final class AirfieldNameAction
+final class DailyFlightsAction
 {
     private $dailyFlights;
 
-    public function __construct(DailyFlights $dailyFlights)
+    public function __construct(DailyFlightsService $dailyFlights)
     {
         $this->dailyFlights = $dailyFlights;
     }

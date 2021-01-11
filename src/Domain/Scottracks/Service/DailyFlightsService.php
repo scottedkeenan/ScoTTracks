@@ -7,7 +7,7 @@ use App\Domain\Scottracks\Repository\DailyFlightsRepository;
 /**
  * Service.
  */
-final class DailyFlights
+final class DailyFlightsService
 {
     /**
      * @var DailyFlightsRepository
@@ -61,6 +61,28 @@ final class DailyFlights
     {
         //get daily flight dates
         $airfieldNames = $this->repository->getDistinctAirfieldNamesFlownToday();
+
+        // Logging here: User created successfully
+        //$this->logger->info(sprintf('User created successfully: %s', $userId));
+
+        return $airfieldNames;
+    }
+
+    public function getDistinctAirfieldNamesByCountry($countryCode): array
+    {
+        //get daily flight dates
+        $airfieldNames = $this->repository->getDistinctAirfieldNamesByCountry($countryCode);
+
+        // Logging here: User created successfully
+        //$this->logger->info(sprintf('User created successfully: %s', $userId));
+
+        return $airfieldNames;
+    }
+
+    public function getDistinctAirfieldNamesFlownTodayByCountry($countryCode): array
+    {
+        //get daily flight dates
+        $airfieldNames = $this->repository->getDistinctAirfieldNamesFlownTodayByCountry($countryCode);
 
         // Logging here: User created successfully
         //$this->logger->info(sprintf('User created successfully: %s', $userId));

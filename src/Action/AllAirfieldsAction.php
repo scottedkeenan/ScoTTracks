@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\PhpRenderer;
 
-final class HomeAction
+final class AllAirfieldsAction
 {
     private $dailyFlights;
 
@@ -22,8 +22,8 @@ final class HomeAction
     ): ResponseInterface {
 
         //invoke the domain
-        $data['airfield_names'] = $this->dailyFlights->getDistinctAirfieldNamesByCountry('GB');
-        $data['flown_today'] = $this->dailyFlights->getDistinctAirfieldNamesFlownTodayByCountry('GB');
+        $data['airfield_names'] = $this->dailyFlights->getDistinctAirfieldNames();
+        $data['flown_today'] = $this->dailyFlights->getDistinctAirfieldNamesFlownToday();
 
         $renderer = new PhpRenderer('../templates/scottracks');
         return $renderer->render($response, "airfields.php", $data);

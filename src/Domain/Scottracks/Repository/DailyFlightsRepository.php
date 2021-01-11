@@ -87,5 +87,47 @@ class DailyFlightsRepository
         }
         return $result;
     }
+
+    public function getDistinctAirfieldNamesByCountry($countryCode): array
+    {
+        $query = "
+                    SELECT DISTINCT takeoff_airfield, nice_name
+                    FROM daily_flights
+                    INNER JOIN airfields ON daily_flights.takeoff_airfield = airfields.name
+                    WHERE takeoff_airfield IS NOT NULL
+                    AND takeoff_airfield != 'unknown'
+                    AND country_code = '$countryCode'
+                ";
+        $data = $this->connection->query($query)->fetchAll();
+
+        $result = [];
+
+        foreach ($data as $row) {
+            $result[$row['takeoff_airfield']] = $row['nice_name'];
+        }
+        return $result;
+
+    }
+
+    public function getDistinctAirfieldNamesFlownTodayByCountry($countryCode): array
+    {
+        $query = "
+                    SELECT takeoff_airfield, COUNT(takeoff_airfield) as `num`
+                    FROM daily_flights
+                    INNER JOIN airfields ON daily_flights.takeoff_airfield = airfields.name
+                    WHERE takeoff_airfield IS NOT NULL
+                    AND takeoff_airfield != 'unknown'
+                    AND daily_flights.takeoff_timestamp > current_date
+                    AND country_code = '$countryCode'
+                    GROUP BY takeoff_airfield
+
+                ";
+        $result = [];
+        $data = $this->connection->query($query)->fetchAll();
+        foreach ($data as $row) {
+            $result[$row['takeoff_airfield']] = $row['num'];
+        }
+        return $result;
+    }
 }
 
