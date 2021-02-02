@@ -49,7 +49,7 @@ final class DailyFlightsService
     public function getDistinctAirfieldNames(): array
     {
         //get daily flight dates
-        $airfieldNames = $this->repository->getDistinctAirfieldNames();
+        $airfieldNames = $this->repository->getDistinctAirfieldNiceNames();
 
         // Logging here: User created successfully
         //$this->logger->info(sprintf('User created successfully: %s', $userId));
@@ -88,5 +88,18 @@ final class DailyFlightsService
         //$this->logger->info(sprintf('User created successfully: %s', $userId));
 
         return $airfieldNames;
+    }
+
+    public function getAverageLaunchClimbRates(): array
+    {
+        $airfieldNames = $this->repository->getDistinctAirfieldNames();
+        $averages = [];
+
+        foreach ($airfieldNames as $airfieldName) {
+            $field_averages = $this->repository->getAverageLaunchClimbRatesByAirfield($airfieldName['takeoff_airfield']);
+            $averages[$airfieldName['takeoff_airfield']] = $field_averages;
+        }
+
+        return $averages;
     }
 }

@@ -37,7 +37,7 @@ function url($url) {
 
 <div class="container col-sm-">
     <div class="row">
-        <div class="col-sm">
+        <div class="col-sm  w-25">
             <ul class="list-group">
                 <?php
                 foreach ($data['flown_today'] as $airfieldName=>$flights):

@@ -49,7 +49,7 @@ class DailyFlightsRepository
         return $this->connection->query($query)->fetchAll();
     }
 
-    public function getDistinctAirfieldNames(): array
+    public function getDistinctAirfieldNiceNames(): array
     {
         $query = "
                     SELECT DISTINCT takeoff_airfield, nice_name
@@ -66,6 +66,20 @@ class DailyFlightsRepository
             $result[$row['takeoff_airfield']] = $row['nice_name'];
         }
         return $result;
+
+    }
+
+    public function getDistinctAirfieldNames(): array
+    {
+        $query = "
+                    SELECT DISTINCT takeoff_airfield
+                    FROM daily_flights
+                    WHERE takeoff_airfield IS NOT NULL
+                    AND takeoff_airfield != 'unknown'
+                ";
+        $data = $this->connection->query($query)->fetchAll();
+
+        return $data;
 
     }
 
@@ -128,6 +142,21 @@ class DailyFlightsRepository
             $result[$row['takeoff_airfield']] = $row['num'];
         }
         return $result;
+    }
+
+    public function getAverageLaunchClimbRatesByAirfield($airfield): array
+    {
+        $query = "
+                    SELECT CAST(takeoff_timestamp AS DATE) theDate,
+                    AVG(average_launch_climb_rate) as avg_launch_climb_rate
+                    FROM daily_flights
+                    WHERE takeoff_timestamp > '2021-01-01'
+                    AND takeoff_airfield = '$airfield'
+                    GROUP BY theDate
+        
+                ";
+        return $this->connection->query($query)->fetchAll();
+
     }
 }
 

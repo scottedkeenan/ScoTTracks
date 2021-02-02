@@ -57,28 +57,18 @@
 </div>
 
 
-<!--<form method="post" action="index.php">-->
-<!--    <select id="date" name="dateOption">-->
-<!--        --><?php
-//        while($row = mysqli_fetch_assoc($select_all_dates_query)) { ?>
-<!--            <option value="--><?php //echo $row['cast(reference_timestamp as date)']; ?><!--">--><?php //echo $row['cast(reference_timestamp as date)'];?><!--</option>-->
-<!--        --><?php //}?>
-<!--    </select>-->
-<!--    <input type="submit" value="Filter"/>-->
-<!--</form>-->
-
-
 <div class="table-responsive">
-    <table class="table">
+<!--    <table class="table table-responsive table-condensed table-sm">-->
+    <table class="table table-sm">
         <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Registration / ID</th>
-            <th scope="col">Launched</th>
-            <th scope="col">Landed</th>
-            <th scope="col">Duration (H:M:S)</th>
-            <th scope="col">Launch Height (ft)</th>
-            <th scope="col">Launch Method</th>
+            <th scope="col" class="align-top">#</th>
+            <th scope="col" class="align-top">Reg / ID</th>
+            <th scope="col" class="align-top">Launched</th>
+            <th scope="col" class="align-top">Landed</th>
+            <th scope="col" class="align-top">Duration (H:M:S)</th>
+            <th scope="col" class="align-top">Launch Height (ft)</th>
+            <th scope="col" class="align-top">Launch Method</th>
         </tr>
         </thead>
         <tbody>
