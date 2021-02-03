@@ -3,6 +3,7 @@
 namespace App\Action;
 
 use App\Domain\Scottracks\Service\DailyFlightsService;
+use App\Domain\Scottracks\Service\AirfieldsService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\PhpRenderer;
@@ -10,10 +11,12 @@ use Slim\Views\PhpRenderer;
 final class DailyFlightsAction
 {
     private $dailyFlights;
+    private $airfields;
 
-    public function __construct(DailyFlightsService $dailyFlights)
+    public function __construct(DailyFlightsService $dailyFlights, AirfieldsService $airfields)
     {
         $this->dailyFlights = $dailyFlights;
+        $this->airfields = $airfields;
     }
 
     public function __invoke(
@@ -34,6 +37,7 @@ final class DailyFlightsAction
         }
 
         //invoke the domain
+        $data['nice_airfield_name'] = $this->airfields->getNiceName($args['airfield_name']);
         $data['flight_data'] = $this->dailyFlights->getDailyFlights($args['airfield_name'], $showDate);
         $data['dates'] = $this->dailyFlights->getDailyFlightDatesForAirfield($args['airfield_name']);
         $data['show_date'] = $showDate;

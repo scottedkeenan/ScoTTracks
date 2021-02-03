@@ -26,6 +26,6 @@ final class HomeAction
         $data['flown_today'] = $this->dailyFlights->getDistinctAirfieldNamesFlownTodayByCountry('GB');
 
         $renderer = new PhpRenderer('../templates/scottracks');
-        return $renderer->render($response, "airfields.php", $data);
+        return $renderer->render($response, "index.php", $data);
     }
 }

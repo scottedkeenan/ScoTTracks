@@ -26,8 +26,6 @@ final class CountriesAction
 
         //invoke the domain
         $countryData = $this->countries->getAllCountries();
-        //invoke the domain
-        $countryData = $this->countries->getAllCountries();
         $data['countries'] = $countryData;
         return $renderer->render($response, "countries.php", $data);
     }
