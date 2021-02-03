@@ -42,6 +42,9 @@ function url($url) {
 
         <div id="content">
 
+            <!-- Navbar -->
+            <?php include('includes/navbar.php'); ?>
+
             <div class="jumbotron jumbotron-fluid">
                 <div class="container">
                     <h2 class="display-4">Welcome to my tracking site.</h2>
@@ -49,9 +52,6 @@ function url($url) {
                     <small>Disclaimer: data may (will) be incorrect or missing.</small>
                 </div>
             </div>
-
-            <!-- Navbar -->
-            <?php include('includes/navbar.php'); ?>
 
             <div class="container col-sm-">
                 <div class="row">

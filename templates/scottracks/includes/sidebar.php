@@ -25,7 +25,7 @@
                     <a href="/sites/lasham_gliding_society">Lasham</a>
                 </li>
                 <li>
-                    <a href="/">All</a>
+                    <a href="/sites/allgit">All</a>
                 </li>
             </ul>
         </li>
