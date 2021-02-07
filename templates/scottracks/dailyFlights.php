@@ -55,30 +55,30 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col">
-                        <h1><?php echo ucwords($data['nice_airfield_name']);?></h1>
+                        <h4><?php echo ucwords($data['nice_airfield_name']);?></h4>
                     </div>
 
                     <div class="col">
-                        <div class="row float-right">
-                            <div class="row float-right">
-                                <div class="col">
-                                    <h6 class="btn"><?php echo $data['show_date'] ?></h6>
-                                </div>
-                            </div>
-                                <div class="col">
-                                    <?php if ($dateIndex +1 < count($dates)): ?>
-                                        <a href="<?php echo isset($data['airfield_name']) ? $data['airfield_name'] . '/' . $dates[$dateIndex+1] : $dates[$dateIndex+1]?>" class="btn btn-primary float-right">prev</a>
-                                    <?php else: ?>
-                                        <a class="btn btn-primary float-right disabled">prev</a>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="col">
-                                    <?php if ($dateIndex +1 > 1 ): ?>
-                                        <a href="<?php echo isset($data['airfield_name']) ? $data['airfield_name'] . '/' . $dates[$dateIndex-1] : $dates[$dateIndex-1]?>" class="btn btn-primary float-right">next</a>
-                                    <?php else: ?>
-                                        <a class="btn btn-primary float-right disabled">next</a>
-                                    <?php endif; ?>
-                                </div>
+
+                        <div class="col">
+                            <?php if ($dateIndex +1 > 1 ): ?>
+                                <a href="<?php echo isset($data['airfield_name']) ? $data['airfield_name'] . '/' . $dates[$dateIndex-1] : $dates[$dateIndex-1]?>" class="btn btn-primary float-right">next</a>
+                            <?php else: ?>
+                                <a class="btn btn-primary float-right disabled">next</a>
+                            <?php endif; ?>
+                        </div>
+
+
+                        <div class="col">
+                            <?php if ($dateIndex +1 < count($dates)): ?>
+                                <a href="<?php echo isset($data['airfield_name']) ? $data['airfield_name'] . '/' . $dates[$dateIndex+1] : $dates[$dateIndex+1]?>" class="btn btn-primary float-right">prev</a>
+                            <?php else: ?>
+                                <a class="btn btn-primary float-right disabled">prev</a>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="col">
+                            <h6 class="btn float-right"><?php echo str_replace('-', '‑', $data['show_date']); ?></h6>
                         </div>
                     </div>
                 </div>
@@ -90,12 +90,12 @@
                     <thead>
                     <tr>
                         <th scope="col" class="align-top">#</th>
-                        <th scope="col" class="align-top">Reg / ID</th>
-                        <th scope="col" class="align-top">Launched</th>
-                        <th scope="col" class="align-top">Landed</th>
-                        <th scope="col" class="align-top">Duration (H:M:S)</th>
-                        <th scope="col" class="align-top">Launch Height (ft)</th>
-                        <th scope="col" class="align-top">Launch Method</th>
+                        <th scope="col" class="align-top">Reg</th>
+                        <th scope="col" class="align-top">Launch</th>
+                        <th scope="col" class="align-top">Land</th>
+                        <th scope="col" class="align-top">Duration</th>
+                        <th scope="col" class="align-top">Height</th>
+                        <th scope="col" class="align-top">Method</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -161,12 +161,12 @@
 
                         <tr>
                             <th scope="row"><?php echo $rowCount; ?></th>
-                            <td><?php echo !is_null($graph_path) ? '<a href="' . $graph_path . '">' : ''?><?php echo $registration; ?></a></td>
+                            <td><?php echo !is_null($graph_path) ? '<a href="' . $graph_path . '">' : ''?><?php echo str_replace('-', '‑', $registration);?><?php echo !is_null($graph_path) ? '</a>' : ''?></td>
                             <td><?php echo $takeoff_timestamp; ?></td>
                             <td><?php echo $landing_timestamp; ?></td>
                             <td><?php echo $duration; ?></td>
                             <td><?php echo $launch_height; ?></td>
-                            <td><?php echo $launch_type; ?></td>
+                            <td><?php echo str_replace('-', '‑', $launch_type);?></td>
                         </tr>
 
                         <?php
