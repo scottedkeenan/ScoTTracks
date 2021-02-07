@@ -86,7 +86,7 @@
 
             <div class="table-responsive">
             <!--    <table class="table table-responsive table-condensed table-sm">-->
-                <table class="table table-sm">
+                <table class="DailyFlights-table--detailed table table-sm">
                     <thead>
                     <tr>
                         <th scope="col" class="align-top">#</th>
@@ -94,8 +94,6 @@
                         <th scope="col" class="align-top">Launch</th>
                         <th scope="col" class="align-top">Land</th>
                         <th scope="col" class="align-top">Duration</th>
-                        <th scope="col" class="align-top">Height</th>
-                        <th scope="col" class="align-top">Method</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -150,7 +148,7 @@
                             } elseif ($row['launch_type'] == 'aerotow_pair') {
                                 $launch_type = 'Aerotow with ' . $row['tug_registration'];
                             } elseif ($row['launch_type'] == 'aerotow_sl') {
-                                $launch_type = 'Aerotow / SL';
+                                $launch_type = 'Aerotow (unknown tug) or Self-Launch';
                             } else {
                                 $launch_type = ucwords($row['launch_type']);
                             }
@@ -160,13 +158,23 @@
                         ?>
 
                         <tr>
-                            <th scope="row"><?php echo $rowCount; ?></th>
+                            <td class="daily-flights" scope="row"><?php echo $rowCount; ?></td>
                             <td><?php echo !is_null($graph_path) ? '<a href="' . $graph_path . '">' : ''?><?php echo str_replace('-', '‑', $registration);?><?php echo !is_null($graph_path) ? '</a>' : ''?></td>
-                            <td><?php echo $takeoff_timestamp; ?></td>
-                            <td><?php echo $landing_timestamp; ?></td>
-                            <td><?php echo $duration; ?></td>
-                            <td><?php echo $launch_height; ?></td>
-                            <td><?php echo str_replace('-', '‑', $launch_type);?></td>
+                            <td class="daily-flights">
+                                <div>
+                                    <?php echo $takeoff_timestamp; ?>
+                                    <?php if ($launch_type !== '--'): ?>
+                                        <div class="detailed">
+                                            <?php echo $launch_height . ' ft'; ?>
+                                        </div>
+                                        <div class="detailed">
+                                            <?php echo str_replace('-', '‑', $launch_type); ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </td>
+                            <td class="daily-flights"><?php echo $landing_timestamp; ?></td>
+                            <td class="daily-flights"><?php echo $duration; ?></td>
                         </tr>
 
                         <?php

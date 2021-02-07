@@ -153,6 +153,27 @@ a.article:hover {
 }
 
 /* ---------------------------------------------------
+    Daily FLights Table STYLE
+----------------------------------------------------- */
+
+.DailyFlights-table--detailed .detailed {
+    display: inline;
+    color: #888;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+table {
+    width:100%;
+}
+
+td.daily-flights {
+    width:20%;
+}
+
+
+/* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
 
@@ -166,4 +187,12 @@ a.article:hover {
     #sidebarCollapse span {
         display: none;
     }
+}
+
+.Results-table--detailed .detailed {
+    display: block;
+    color: #888;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
 }
