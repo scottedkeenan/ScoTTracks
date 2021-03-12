@@ -72,16 +72,16 @@
             </ul>
         </li>
 
+<!--        <li>-->
+<!--            <a href="#statsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Stats</a>-->
+<!--            <ul class="collapse list-unstyled" id="statsSubmenu">-->
+<!--                <li>-->
+<!--                    <a href="/stats/averages">Averages</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </li>-->
         <li>
-            <a href="#statsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Stats</a>
-            <ul class="collapse list-unstyled" id="statsSubmenu">
-                <li>
-                    <a href="/stats/averages">Averages</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="/">Contact</a>
+            <a href="mailto:scott@scottedkeenan.co.uk">Contact</a>
         </li>
     </ul>
 </nav>

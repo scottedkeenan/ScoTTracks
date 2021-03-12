@@ -93,6 +93,7 @@ class DailyFlightsRepository
         $query = "
                     SELECT DISTINCT takeoff_airfield, icao
                     FROM daily_flights
+                    INNER JOIN airfields a ON daily_flights.takeoff_airfield = a.id
                     WHERE takeoff_airfield IS NOT NULL
                     AND takeoff_airfield != 'unknown'
                 ";
