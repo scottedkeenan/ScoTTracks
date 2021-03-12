@@ -22,7 +22,7 @@ final class HomeAction
     ): ResponseInterface {
 
         //invoke the domain
-        $data['airfield_names'] = $this->dailyFlights->getDistinctAirfieldNamesByCountry('GB');
+        $data['airfield_names'] = $this->dailyFlights->getDistinctFlownAirfieldNamesByCountry('GB');
         $data['flown_today'] = $this->dailyFlights->getDistinctAirfieldNamesFlownTodayByCountry('GB');
 
         $renderer = new PhpRenderer('../templates/scottracks');

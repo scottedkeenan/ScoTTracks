@@ -27,7 +27,7 @@ class AirfieldsRepository
     public function getNiceName($airfieldName): array
     {
         $sql = "
-                    SELECT nice_name
+                    SELECT name
                     FROM airfields
                     WHERE name = '$airfieldName';
                 ";

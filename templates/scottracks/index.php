@@ -36,6 +36,8 @@ function url($url) {
     <title>ScoTTracks</title>
 </head>
 <body>
+    <?php print_r($data); ?>
+
     <div class="wrapper">
         <!-- Sidebar -->
         <?php include('includes/sidebar.php'); ?>
@@ -60,21 +62,21 @@ function url($url) {
                             <?php
                             foreach ($data['flown_today'] as $airfieldName=>$flights):
                                 $clean_url = url($airfieldName);
-                                $url = sprintf('/sites/%s', $clean_url);
+                                $url = sprintf('/airfields/%s', $clean_url);
                                 ?>
                                 <a href="<?php echo $url;?>" class="list-group-item list-group-item-action">
-                                    <?php echo ucwords(strtolower($data['airfield_names'][$airfieldName])); ?>
+                                    <?php echo ucwords(strtolower($airfieldName)); ?>
                                     <span class="badge badge-primary badge-pill"><?php echo $flights; ?></span>
                                 </a>
                             <? endforeach; ?>
                             <?php
                             asort($data['airfield_names']);
-                            foreach ($data['airfield_names'] as $airfieldName => $niceName):
+                            foreach ($data['airfield_names'] as $airfieldName):
                                 if (!in_array($airfieldName, array_keys($data['flown_today']))):
                                     $clean_url = url($airfieldName);
-                                    $url = sprintf('/sites/%s', $clean_url); ?>
+                                    $url = sprintf('/airfields/%s', $clean_url); ?>
                                     <a href="<?php echo $url;?>" class="list-group-item list-group-item-action">
-                                        <?php echo ucwords(strtolower($niceName))?>
+                                        <?php echo ucwords($airfieldName)?>
                                     </a>
                                 <?php endif; ?>
                             <? endforeach; ?>

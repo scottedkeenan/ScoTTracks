@@ -156,7 +156,7 @@ a.article:hover {
     Daily FLights Table STYLE
 ----------------------------------------------------- */
 
-.DailyFlights-table--detailed .detailed {
+.DailyFlights-table .detailed {
     display: inline;
     color: #888;
     font-weight: 400;
@@ -164,13 +164,26 @@ a.article:hover {
     line-height: 20px;
 }
 
-table {
-    width:100%;
-}
 
-td.daily-flights {
-    width:20%;
-}
+/*!*table {*!*/
+/*!*    width:100%;*!*/
+/*!*}*!*/
+
+/*table.DailyFlights-table thead th:first-child {*/
+/*    border-left: none;*/
+/*    width: 8em;*/
+/*    min-width: 8em;*/
+/*    max-width: 8em;*/
+/*}*/
+
+
+/*!*td.daily-flights-ln-num {*!*/
+/*!*    width:10px;*!*/
+/*!*}*!*/
+
+/*!*td.daily-flights {*!*/
+/*!*    width:22.5%;*!*/
+/*!*}*!*/
 
 
 /* ---------------------------------------------------

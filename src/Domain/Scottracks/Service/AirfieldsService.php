@@ -32,6 +32,11 @@ final class AirfieldsService
         // Logging here: User created successfully
         //$this->logger->info(sprintf('User created successfully: %s', $userId));
 
-        return $niceName[0]['nice_name'];
+//        if ($niceName[0]['nice_name']) {
+//            return $niceName[0]['nice_name'];
+//        } else {
+//            return 'no name';
+//        }
+        return $niceName[0]['name'];
     }
 }

@@ -33,7 +33,7 @@ final class AirfieldsAction
 
         if ($args['country']) {
             //invoke the domain
-            $data['airfield_names'] = $this->dailyFlights->getDistinctAirfieldNamesByCountry($args['country']);
+            $data['airfield_names'] = $this->dailyFlights->getDistinctFlownAirfieldNamesByCountry($args['country']);
             $data['flown_today'] = $this->dailyFlights->getDistinctAirfieldNamesFlownTodayByCountry($args['country']);
 
             if (in_array($args['country'], array_column($countryData, 'country_code'))) {

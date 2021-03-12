@@ -86,7 +86,7 @@
 
             <div class="table-responsive">
             <!--    <table class="table table-responsive table-condensed table-sm">-->
-                <table class="DailyFlights-table--detailed table table-sm">
+                <table class="DailyFlights-table table table-sm">
                     <thead>
                     <tr>
                         <th scope="col" class="align-top">#</th>
@@ -118,14 +118,29 @@
                         $takeoff_timestamp = $takeoff_time ? $takeoff_time->format('H:i:s') : '--';
                         $landing_timestamp = $landing_time ? $landing_time->format('H:i:s') : $row['status'];
                         $launch_height = round($row['launch_height'] * 3.28084);
-                        if ($takeoff_time) {
+                        
+                        // LIVE EDIT
+                        if ($takeoff_time && $landing_time) {
                             $graph_path = '/graphs/' . $registration . '-' . $takeoff_time->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
-                            if (!file_exists('.' . $graph_path)) {
-                                $graph_path = null;
+                            if (!(file_exists('.' . $graph_path))) {
+                                $graph_path = 'https://scotttracks-graphs.s3-eu-west-1.amazonaws.com/graphs/' . $row['address'] . '-' . $takeoff_time->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
                             }
+
                         } else {
                             $graph_path = null;
                         }
+                        
+                        // END LIVE EDIT
+                        
+                        
+                        //if ($takeoff_time) {
+                        //    $graph_path = '/graphs/' . $registration . '-' . $takeoff_time->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
+                        //    if (!file_exists('.' . $graph_path)) {
+                        //        $graph_path = null;
+                        //    }
+                        //} else {
+                        //    $graph_path = null;
+                        //}
                         if ($takeoff_time && $landing_time) {
                             $duration = date_diff($takeoff_time, $landing_time)->format('%h:%I:%S');
                         } elseif ($takeoff_time && !$landing_time) {
@@ -158,18 +173,18 @@
                         ?>
 
                         <tr>
-                            <td class="daily-flights" scope="row"><?php echo $rowCount; ?></td>
-                            <td><?php echo !is_null($graph_path) ? '<a href="' . $graph_path . '">' : ''?><?php echo str_replace('-', '‑', $registration);?><?php echo !is_null($graph_path) ? '</a>' : ''?></td>
+                            <td class="daily-flights-ln-num"><?php echo $rowCount; ?></td>
+                            <td class="daily-flights"><?php echo !is_null($graph_path) ? '<a href="' . $graph_path . '">' : ''?><?php echo str_replace('-', '‑', $registration);?><?php echo !is_null($graph_path) ? '</a>' : ''?></td>
                             <td class="daily-flights">
                                 <div>
                                     <?php echo $takeoff_timestamp; ?>
+                                </div>
+                                <div class="detailed">
                                     <?php if ($launch_type !== '--'): ?>
-                                        <div class="detailed">
-                                            <?php echo $launch_height . ' ft'; ?>
-                                        </div>
-                                        <div class="detailed">
+                                        <?php if (is_null($launch_height) || !((int)$launch_height <= 0)): ?>
+                                            <?php echo $launch_height . ' ft | '; ?>
+                                        <?php endif; ?>
                                             <?php echo str_replace('-', '‑', $launch_type); ?>
-                                        </div>
                                     <?php endif; ?>
                                 </div>
                             </td>
