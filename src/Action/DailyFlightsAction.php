@@ -37,7 +37,7 @@ final class DailyFlightsAction
         }
 
         //invoke the domain
-        $data['nice_airfield_name'] = $this->airfields->getAirfieldNameByID($args['airfield_id']);
+        $data['airfield_name'] = $this->airfields->getAirfieldNameByID($args['airfield_id']);
         $data['flight_data'] = $this->dailyFlights->getDailyFlights($args['airfield_id'], $showDate);
         $data['dates'] = $this->dailyFlights->getDailyFlightDatesForAirfield($args['airfield_id']);
         $data['show_date'] = $showDate;

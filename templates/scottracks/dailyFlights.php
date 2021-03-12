@@ -24,7 +24,6 @@
     <title>ScoTTracks</title>
 </head>
 <body>
-
     <div class="wrapper">
         <!-- Sidebar -->
         <?php include('includes/sidebar.php'); ?>
@@ -55,14 +54,14 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col">
-                        <h4><?php echo ucwords($data['nice_airfield_name']);?></h4>
+                        <h4><?php echo ucwords($data['airfield_name']);?></h4>
                     </div>
 
                     <div class="col">
 
                         <div class="col">
                             <?php if ($dateIndex +1 > 1 ): ?>
-                                <a href="<?php echo isset($data['airfield_name']) ? $data['airfield_name'] . '/' . $dates[$dateIndex-1] : $dates[$dateIndex-1]?>" class="btn btn-primary float-right">next</a>
+                                <a href="<?php echo isset($data['airfield_id']) ? $data['airfield_id'] . '/' . $dates[$dateIndex-1] : $dates[$dateIndex-1]?>" class="btn btn-primary float-right">next</a>
                             <?php else: ?>
                                 <a class="btn btn-primary float-right disabled">next</a>
                             <?php endif; ?>
@@ -71,7 +70,7 @@
 
                         <div class="col">
                             <?php if ($dateIndex +1 < count($dates)): ?>
-                                <a href="<?php echo isset($data['airfield_name']) ? $data['airfield_name'] . '/' . $dates[$dateIndex+1] : $dates[$dateIndex+1]?>" class="btn btn-primary float-right">prev</a>
+                                <a href="<?php echo isset($data['airfield_id']) ? $data['airfield_id'] . '/' . $dates[$dateIndex+1] : $dates[$dateIndex+1]?>" class="btn btn-primary float-right">prev</a>
                             <?php else: ?>
                                 <a class="btn btn-primary float-right disabled">prev</a>
                             <?php endif; ?>
