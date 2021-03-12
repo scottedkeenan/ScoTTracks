@@ -33,13 +33,13 @@ final class DailyFlightsAction
         } else {
             date_default_timezone_set('Europe/London');
             $showDate = date('Y-m-d');
-            $data['airfield_name'] = $args['airfield_name'];
+            $data['airfield_id'] = $args['airfield_id'];
         }
 
         //invoke the domain
-        $data['nice_airfield_name'] = $this->airfields->getNiceName($args['airfield_name']);
-        $data['flight_data'] = $this->dailyFlights->getDailyFlights($args['airfield_name'], $showDate);
-        $data['dates'] = $this->dailyFlights->getDailyFlightDatesForAirfield($args['airfield_name']);
+        $data['nice_airfield_name'] = $this->airfields->getAirfieldNameByID($args['airfield_id']);
+        $data['flight_data'] = $this->dailyFlights->getDailyFlights($args['airfield_id'], $showDate);
+        $data['dates'] = $this->dailyFlights->getDailyFlightDatesForAirfield($args['airfield_id']);
         $data['show_date'] = $showDate;
 
         $renderer = new PhpRenderer('../templates/scottracks');

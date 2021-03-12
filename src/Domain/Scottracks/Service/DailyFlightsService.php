@@ -24,10 +24,10 @@ final class DailyFlightsService
         $this->repository = $repository;
     }
 
-    public function getDailyFlights(string $airfieldName, $showDate): array
+    public function getDailyFlights(string $airfieldID, $showDate): array
     {
         // Get daily flights
-        $dailyFlights = $this->repository->getDailyFlights($airfieldName, $showDate);
+        $dailyFlights = $this->repository->getDailyFlights($airfieldID, $showDate);
 
         // Logging here: User created successfully
         //$this->logger->info(sprintf('User created successfully: %s', $userId));
@@ -35,10 +35,10 @@ final class DailyFlightsService
         return $dailyFlights;
     }
 
-    public function getDailyFlightDatesForAirfield(string $airfieldName): array
+    public function getDailyFlightDatesForAirfield(string $airfieldID): array
     {
         //get daily flight dates
-        $dailyFLightDates = $this->repository->getDailyFlightDates($airfieldName);
+        $dailyFLightDates = $this->repository->getDailyFlightDates($airfieldID);
 
         // Logging here: User created successfully
         //$this->logger->info(sprintf('User created successfully: %s', $userId));

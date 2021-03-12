@@ -39,4 +39,21 @@ final class AirfieldsService
 //        }
         return $niceName[0]['name'];
     }
+
+
+    public function getAirfieldNameByID($airfieldID): string
+    {
+        // Get daily flights
+        $name = $this->repository->getName($airfieldID);
+
+        // Logging here: User created successfully
+        //$this->logger->info(sprintf('User created successfully: %s', $userId));
+
+//        if ($niceName[0]['nice_name']) {
+//            return $niceName[0]['nice_name'];
+//        } else {
+//            return 'no name';
+//        }
+        return $name[0]['name'];
+    }
 }

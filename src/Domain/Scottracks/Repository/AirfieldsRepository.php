@@ -36,5 +36,18 @@ class AirfieldsRepository
 
     }
 
+
+    public function getName($airfieldID): array
+    {
+        $sql = "
+                    SELECT name
+                    FROM airfields
+                    WHERE id = '$airfieldID';
+                ";
+
+        return $this->connection->query($sql)->fetchAll();
+
+    }
+
 }
 

@@ -13,16 +13,16 @@
             <a href="#airfieldsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Airfields</a>
             <ul class="collapse list-unstyled" id="airfieldsSubmenu">
                 <li>
-                    <a href="/airfields/darlton">Darlton</a>
+                    <a href="/airfields/102">Darlton</a>
                 </li>
                 <li>
-                    <a href="/airfields/syerston">Syerston</a>
+                    <a href="/airfields/400">Syerston</a>
                 </li>
                 <li>
-                    <a href="/airfields/lasham_gliding_society">Lasham</a>
+                    <a href="/airfields/226">Lasham</a>
                 </li>
                 <li>
-                    <a href="/airfields/association-velivole-chateau-arnoux-saint-auban">Saint-Auban</a>
+                    <a href="/airfields/2541">Saint-Auban</a>
                 </li>
                 <li>
                     <a href="/airfields/all">All</a>
@@ -30,26 +30,26 @@
             </ul>
         </li>
 
-        <li>
-            <a href="#sitesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Sites</a>
-            <ul class="collapse list-unstyled" id="sitesSubmenu">
-                <li>
-                    <a href="/sites/darlton">Darlton</a>
-                </li>
-                <li>
-                    <a href="/sites/syerston">Syerston</a>
-                </li>
-                <li>
-                    <a href="/sites/lasham_gliding_society">Lasham</a>
-                </li>
-                <li>
-                    <a href="/sites/association-velivole-chateau-arnoux-saint-auban">Saint-Auban</a>
-                </li>
-                <li>
-                    <a href="/sites/all">All</a>
-                </li>
-            </ul>
-        </li>
+<!--        <li>-->
+<!--            <a href="#sitesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Sites</a>-->
+<!--            <ul class="collapse list-unstyled" id="sitesSubmenu">-->
+<!--                <li>-->
+<!--                    <a href="/sites/darlton">Darlton</a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="/sites/syerston">Syerston</a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="/sites/lasham_gliding_society">Lasham</a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="/sites/association-velivole-chateau-arnoux-saint-auban">Saint-Auban</a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="/sites/all">All</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </li>-->
 
         <li>
             <a href="#countriesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Countries</a>
