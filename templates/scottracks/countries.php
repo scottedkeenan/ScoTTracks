@@ -2,18 +2,6 @@
 
 <?php date_default_timezone_set('Europe/London'); ?>
 
-<?php
-
-function url($url) {
-    $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);
-    $url = trim($url, "-");
-    $url = iconv("utf-8", "us-ascii//TRANSLIT", $url);
-    $url = strtolower($url);
-    $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
-    return $url;
-}
-?>
-
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -36,6 +24,7 @@ function url($url) {
     <title>ScoTTracks</title>
 </head>
 <body>
+
     <div class="wrapper">
         <!-- Sidebar -->
         <?php include('includes/sidebar.php'); ?>
@@ -45,16 +34,36 @@ function url($url) {
             <!-- Navbar -->
             <?php include('includes/navbar.php'); ?>
 
-            <div class="jumbotron jumbotron-fluid">
-                <div class="container">
-                    <h2 class="display-4">Welcome to my tracking site.</h2>
-                    <p>Below should be a list of gliding clubs or sites for which logs exist. If there is a number next to a site name, launches have been detected there today. Click a site name to take a look.</p>
-                    <small>Disclaimer: data may (will) be incorrect or missing.</small>
-                </div>
-            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Countries</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-            <!-- Airfields/flights list -->
-            <?php include('includes/airfields_flights_list.php'); ?>
+                    <?php
+
+
+                    $rowCount = 1;
+
+                    foreach ($data['countries'] as $row) :
+                        $countryPath = 'countries/' . $row['country_code'];?>
+
+                        <tr>
+                            <th scope="row"><?php echo $rowCount; ?></th>
+                            <td><?php echo !is_null($countryPath) ? '<a href="' . $countryPath . '">' : ''?><?php echo $row['country_code']; ?></a></td>
+                        </tr>
+
+                        <?php
+                        $rowCount ++;
+
+                        endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

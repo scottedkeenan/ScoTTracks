@@ -2,18 +2,6 @@
 
 <?php date_default_timezone_set('Europe/London'); ?>
 
-<?php
-
-function url($url) {
-    $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);
-    $url = trim($url, "-");
-    $url = iconv("utf-8", "us-ascii//TRANSLIT", $url);
-    $url = strtolower($url);
-    $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
-    return $url;
-}
-?>
-
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -44,19 +32,62 @@ function url($url) {
 
             <!-- Navbar -->
             <?php include('includes/navbar.php'); ?>
+            <?php
+            $table_count = 1;
 
-            <div class="jumbotron jumbotron-fluid">
-                <div class="container">
-                    <h2 class="display-4">Welcome to my tracking site.</h2>
-                    <p>Below should be a list of gliding clubs or sites for which logs exist. If there is a number next to a site name, launches have been detected there today. Click a site name to take a look.</p>
-                    <small>Disclaimer: data may (will) be incorrect or missing.</small>
-                </div>
-            </div>
+            $averages = $data['averages'];
 
-            <!-- Airfields/flights list -->
-            <?php include('includes/airfields_flights_list.php'); ?>
+            function cmp($a, $b) {
+                $a = count($a);
+                $b = count($b);
+                if ($a == $b) {
+                    return 0;
+                }
+                return ($a > $b) ? -1 : 1;
+            }
+            uasort($averages, 'cmp');
+
+            foreach($averages as $airfieldName => $averageData):
+                if ($averageData) :
+            if ($table_count == 1): ?>
+                <div class="row">
+                <?php endif; ?>
+                    <div class="col-sm">
+                            <h5><?php echo ucwords($airfieldName) ?></h5>
+                            <table class="table table-bordered table-sm">
+                                <thead>
+                                <tr>
+                                    <th scope="col" class="col-xs-4">Date</th>
+                                    <th scope="col" class="col-xs-4">Average</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <?php foreach ($averageData as $row) : ?>
+                                <tr>
+                                    <td><?php echo $row['theDate'] ?></td>
+                                    <td><?php echo $row['avg_launch_climb_rate']?></td>
+                                </tr>
+                                </tbody>
+
+                                <?php endforeach; ?>
+                            </table>
+                        </div>
+                    <?php
+                    if ($table_count == 3):?>
+                        </div>
+                    <?php endif;
+                    $table_count = $table_count + 1;
+                    if ($table_count == 4) {
+                        $table_count = 1;
+                    }
+                    endif;
+                    endforeach;
+                    ?>
         </div>
     </div>
+
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

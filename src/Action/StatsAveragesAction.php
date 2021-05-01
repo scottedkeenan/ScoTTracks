@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\PhpRenderer;
 
-final class HomeAction
+final class StatsAveragesAction
 {
     private $dailyFlights;
 
@@ -18,14 +18,18 @@ final class HomeAction
 
     public function __invoke(
         ServerRequestInterface $request,
-        ResponseInterface $response
-    ): ResponseInterface {
+        ResponseInterface $response,
+        $args
+    ): ResponseInterface
+    {
+        $renderer = new PhpRenderer('../templates/scottracks');
 
         //invoke the domain
-        $data['airfield_names'] = $this->dailyFlights->getDistinctFlownAirfieldNamesByCountry('GB');
-        $data['flown_today'] = $this->dailyFlights->getDistinctAirfieldNamesFlownTodayByCountry('GB');
 
-        $renderer = new PhpRenderer('../templates/scottracks');
-        return $renderer->render($response, "index.php", $data);
+        $data['averages'] = $this->dailyFlights->getAverageLaunchClimbRates();
+
+        return $renderer->render($response, "averages.php", $data);
+
     }
+
 }

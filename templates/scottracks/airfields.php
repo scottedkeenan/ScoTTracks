@@ -45,14 +45,6 @@ function url($url) {
             <!-- Navbar -->
             <?php include('includes/navbar.php'); ?>
 
-            <div class="jumbotron jumbotron-fluid">
-                <div class="container">
-                    <h2 class="display-4">Welcome to my tracking site.</h2>
-                    <p>Below should be a list of gliding clubs or sites for which logs exist. If there is a number next to a site name, launches have been detected there today. Click a site name to take a look.</p>
-                    <small>Disclaimer: data may (will) be incorrect or missing.</small>
-                </div>
-            </div>
-
             <!-- Airfields/flights list -->
             <?php include('includes/airfields_flights_list.php'); ?>
         </div>

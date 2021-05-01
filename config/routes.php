@@ -10,8 +10,16 @@ use Slim\App;
 return function (App $app) {
 
     $app->get('/', \App\Action\HomeAction::class)->setName('home');
-    $app->get('/{airfield_name}', \App\Action\AirfieldNameAction::class)->setName('airfield');
-    $app->get('/{airfield_name}/{date}', \App\Action\AirfieldNameAction::class)->setName('airfield');
+//    $app->get('sites/stats', \App\Action\AllSitesStatsAction::class)->setName('allsitesstats');
+//    $app->get('sites/{airfield_name}/stats', \App\Action\StatsForSiteAction::class)->setName('statsforsite');
+    $app->get('/airfields/all', \App\Action\AllAirfieldsAction::class)->setName('allairfields');
+    $app->get('/airfields/{airfield_id}', \App\Action\DailyFlightsAction::class)->setName('airfield');
+    $app->get('/airfields/{airfield_id}/{date}', \App\Action\DailyFlightsAction::class)->setName('airfielddate');
+
+    $app->get('/countries', \App\Action\CountriesAction::class)->setName('countries');
+    $app->get('/countries/{country}', \App\Action\AirfieldsAction::class)->setName('country');
+//    $app->get('countries/{country}/stats', \App\Action\CountryStatsAction::class)->setName('countrystats');
+    $app->get('/stats/averages', \App\Action\StatsAveragesAction::class)->setName('averages');
 
 };
 
