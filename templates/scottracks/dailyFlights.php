@@ -1,6 +1,11 @@
 <!doctype html>
 
-<?php date_default_timezone_set('Europe/London'); ?>
+<?php
+$siteTimezone = new DateTimeZone('Europe/London');
+$trackerTimezone = new DateTimeZone('UTC');
+$offset = $siteTimezone->getOffset($trackerTimezone);
+?>
+
 
 <html lang="en">
 <head>
@@ -105,46 +110,45 @@
                         if (is_null($row['takeoff_timestamp']) && is_null($row['landing_timestamp'])) {
                             continue;
                         }
+                        
+                        $takeoff_time = $row['takeoff_timestamp'] ? new DateTime($row['takeoff_timestamp'], $trackerTimezone) : null;
+                        if ($takeoff_time) {
+                            $takeoff_time->setTimeZone($siteTimezone);
+                        }
 
-                        $takeoff_time = $row['takeoff_timestamp'] ? new DateTime('@' . strtotime($row['takeoff_timestamp'])) : null;
                         $takeoff_airfield = $row['takeoff_airfield'] ? $row['takeoff_airfield']: '--';
 
-
-                        $landing_time = $row['landing_timestamp'] ? new DateTime('@' . strtotime($row['landing_timestamp'])) : null;
+                        $landing_time = $row['landing_timestamp'] ? new DateTime($row['landing_timestamp'], $trackerTimezone) : null;
+                        if ($landing_time) {
+                            $landing_time->setTimeZone($siteTimezone);
+                        }
+                        
+                        
                         $landing_airfield = $row['landing_airfield'] ? $row['landing_airfield']: '--';
 
                         $registration = $row['registration'] != 'UNKNOWN' ? $row['registration'] : $row['address'];
+                        
                         $takeoff_timestamp = $takeoff_time ? $takeoff_time->format('H:i:s') : '--';
+
                         $landing_timestamp = $landing_time ? $landing_time->format('H:i:s') : $row['status'];
                         $launch_height = round($row['launch_height'] * 3.28084);
-                        
-                        // LIVE EDIT
+
                         if ($takeoff_time && $landing_time) {
                             $graph_path = '/graphs/' . $registration . '-' . $takeoff_time->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
                             if (!(file_exists('.' . $graph_path))) {
-                                $graph_path = 'https://scotttracks-graphs.s3-eu-west-1.amazonaws.com/graphs/' . $row['address'] . '-' . $takeoff_time->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
+                                $graph_path = 'https://scotttracks-graphs.s3-eu-west-1.amazonaws.com/graphs/' . $row['address'] . '-' .  (new DateTime($row['takeoff_timestamp']))->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
                             }
 
                         } else {
                             $graph_path = null;
                         }
                         
-                        // END LIVE EDIT
-                        
-                        
-                        //if ($takeoff_time) {
-                        //    $graph_path = '/graphs/' . $registration . '-' . $takeoff_time->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
-                        //    if (!file_exists('.' . $graph_path)) {
-                        //        $graph_path = null;
-                        //    }
-                        //} else {
-                        //    $graph_path = null;
-                        //}
                         if ($takeoff_time && $landing_time) {
                             $duration = date_diff($takeoff_time, $landing_time)->format('%h:%I:%S');
                         } elseif ($takeoff_time && !$landing_time) {
-                            $nowTime = new DateTime();
+                            $nowTime = new DateTime('now', $siteTimezone);
                             $duration = date_diff($takeoff_time, $nowTime)->format('%h:%I:%S');
+
                         } elseif (!$takeoff_time && $landing_time) {
                             $duration = '--';
                         }
@@ -162,7 +166,8 @@
                             } elseif ($row['launch_type'] == 'aerotow_pair') {
                                 $launch_type = 'Aerotow with ' . $row['tug_registration'];
                             } elseif ($row['launch_type'] == 'aerotow_sl') {
-                                $launch_type = 'Aerotow (unknown tug) or Self-Launch';
+                                // $launch_type = 'Aerotow (unknown tug) or Self-Launch';
+                                $launch_type = '';
                             } else {
                                 $launch_type = ucwords($row['launch_type']);
                             }
@@ -173,7 +178,19 @@
 
                         <tr>
                             <td class="daily-flights-ln-num"><?php echo $rowCount; ?></td>
-                            <td class="daily-flights"><?php echo !is_null($graph_path) ? '<a href="' . $graph_path . '">' : ''?><?php echo str_replace('-', '‑', $registration);?><?php echo !is_null($graph_path) ? '</a>' : ''?></td>
+                            <td class="daily-flights">
+                                <div>
+                                    <?php echo !is_null($graph_path) ? '<a href="' . $graph_path . '">' : ''?><?php echo str_replace('-', '‑', $registration);?><?php echo !is_null($graph_path) ? '</a>' : ''?>
+                                </div>
+                                <div class="detailed">
+                                    <?php if ($row['aircraft_model']):
+                                        echo $row['aircraft_model'];
+                                    endif; ?>
+                                    <?php if ($row['competition_number']):
+                                        echo ' | ' . $row['competition_number'];
+                                    endif; ?>
+                                </div>
+                            </td>
                             <td class="daily-flights">
                                 <div>
                                     <?php echo $takeoff_timestamp; ?>
