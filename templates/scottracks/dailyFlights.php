@@ -202,9 +202,21 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
                                         <?php endif; ?>
                                             <?php echo str_replace('-', '‑', $launch_type); ?>
                                     <?php endif; ?>
+                                    <?php if (!is_null($row['takeoff_airfield_name']) && $row['takeoff_airfield_name'] != $data['airfield_name']):
+                                        echo sprintf('@ %s', $row['takeoff_airfield_name']);
+                                    endif; ?>
                                 </div>
                             </td>
-                            <td class="daily-flights"><?php echo $landing_timestamp; ?></td>
+                            <td class="daily-flights">
+                                <div>
+                                    <?php echo $landing_timestamp; ?>
+                                </div>
+                                <div class="detailed">
+                                    <?php if (!is_null($row['landing_airfield_name']) && $row['landing_airfield_name'] != $data['airfield_name']):
+                                        echo sprintf('@ %s', $row['landing_airfield_name']);
+                                    endif; ?>
+                                </div>
+                            </td>
                             <td class="daily-flights"><?php echo $duration; ?></td>
                         </tr>
 
