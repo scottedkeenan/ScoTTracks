@@ -11,7 +11,7 @@
                         <?php echo ucwords(strtolower($airfield['name'])); ?>
                         <span class="badge badge-primary badge-pill"><?php echo $airfield['flights']; ?></span>
                     </a>
-                <? endforeach; ?>
+                <?php endforeach; ?>
                 <?php
                 foreach ($data['airfield_names'] as $id => $airfield_data):
                     if (!in_array($id, array_keys($data['flown_today']))):
@@ -21,7 +21,7 @@
                             <?php echo ucwords(strtolower($airfield_data['name']))?>
                         </a>
                     <?php endif; ?>
-                <? endforeach; ?>
+                <?php endforeach; ?>
             </ul>
         </div>
     </div>
