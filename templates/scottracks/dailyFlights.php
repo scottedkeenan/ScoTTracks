@@ -57,7 +57,7 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
 
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col">
+                    <div class="col-sm-1">
                         <h4><?php echo $data['airfield_name'];?></h4>
                     </div>
 
@@ -65,7 +65,7 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
 
                         <div class="col">
                             <?php if ($dateIndex +1 > 1 ): ?>
-                                <a href="<?php echo isset($data['airfield_id']) ? $data['airfield_id'] . '/' . $dates[$dateIndex-1] : $dates[$dateIndex-1]?>" class="btn btn-primary float-right">next</a>
+                                <a href="<?php echo isset($data['airfield_id']) ? $data['airfield_id'] . '/' . $dates[$dateIndex-1] . '?order_by=' . strtolower($data['order_by']) : $dates[$dateIndex-1] . '?order_by=' . $data['order_by'] ?>" class="btn btn-primary float-right">next</a>
                             <?php else: ?>
                                 <a class="btn btn-primary float-right disabled">next</a>
                             <?php endif; ?>
@@ -74,7 +74,7 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
 
                         <div class="col">
                             <?php if ($dateIndex +1 < count($dates)): ?>
-                                <a href="<?php echo isset($data['airfield_id']) ? $data['airfield_id'] . '/' . $dates[$dateIndex+1] : $dates[$dateIndex+1]?>" class="btn btn-primary float-right">prev</a>
+                                <a href="<?php echo isset($data['airfield_id']) ? $data['airfield_id'] . '/' . $dates[$dateIndex+1] . '?order_by=' . strtolower($data['order_by']) : $dates[$dateIndex+1] . '?order_by=' . $data['order_by'] ?>" class="btn btn-primary float-right">prev</a>
                             <?php else: ?>
                                 <a class="btn btn-primary float-right disabled">prev</a>
                             <?php endif; ?>
@@ -92,7 +92,13 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
                 <table class="DailyFlights-table table table-sm">
                     <thead>
                     <tr>
-                        <th scope="col" class="align-top">#</th>
+                        <th scope="col" class="align-top">
+                            <?php if ($data['order_by'] === 'desc'): ?>
+                                <a href="<?php echo isset($data['airfield_id']) ? $data['airfield_id'] . '/' . $dates[$dateIndex] . '?order_by=asc' : $dates[$dateIndex] . '?order_by=asc'?>" class="align-top">#</a>
+                            <?php else: ?>
+                                <a href="<?php echo isset($data['airfield_id']) ? $data['airfield_id'] . '/' . $dates[$dateIndex] . '?order_by=desc' : $dates[$dateIndex] . '?order_by=desc'?>" class="align-top">#</a>
+                            <?php endif; ?>
+                        </th>
                         <th scope="col" class="align-top">Reg</th>
                         <th scope="col" class="align-top">Launch</th>
                         <th scope="col" class="align-top">Land</th>
@@ -103,7 +109,11 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
 
                     <?php
 
-                    $rowCount = 1;
+                    if ($data['order_by'] === 'desc') {
+                        $rowCount = count($data['flight_data']);
+                    } else {
+                        $rowCount = 1;
+                    }
 
                     foreach ($data['flight_data'] as $row) {
                         if (is_null($row['takeoff_timestamp']) && is_null($row['landing_timestamp'])) {
@@ -220,7 +230,12 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
                         </tr>
 
                         <?php
-                        $rowCount ++;
+                        if ($data['order_by'] === 'desc') {
+                            $rowCount --;
+                        } else {
+                            $rowCount ++;
+                        }
+
                     }
                     ?>
                     </tbody>

@@ -36,11 +36,19 @@ final class DailyFlightsAction
             $data['airfield_id'] = $args['airfield_id'];
         }
 
+        if ($request->getQueryParams()['order_by']) {
+            if (!in_array($request->getQueryParams()['order_by'],['asc', 'desc'])) {
+                return $response->withHeader('Location', '/')->withStatus(400);
+            }
+        }
+
         //invoke the domain
         $data['airfield_name'] = $this->airfields->getAirfieldNameByID($args['airfield_id']);
-        $data['flight_data'] = $this->dailyFlights->getDailyFlights($args['airfield_id'], $showDate);
+        $data['flight_data'] = $this->dailyFlights->getDailyFlights($args['airfield_id'], $showDate, $request->getQueryParams()['order_by'] ?? 'ASC');
         $data['dates'] = $this->dailyFlights->getDailyFlightDatesForAirfield($args['airfield_id']);
         $data['show_date'] = $showDate;
+        $data['order_by'] = $request->getQueryParams()['order_by'] ?? 'ASC';
+
 
         $renderer = new PhpRenderer('../templates/scottracks');
         return $renderer->render($response, "dailyFlights.php", $data);
