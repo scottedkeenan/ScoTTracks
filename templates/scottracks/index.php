@@ -48,8 +48,8 @@ function url($url) {
             <div class="jumbotron jumbotron-fluid">
                 <div class="container">
                     <h2 class="display-4">Welcome to my tracking site.</h2>
-                    <p>Below should be a list of gliding clubs or sites for which logs exist. If there is a number next to a site name, launches have been detected there today. Click a site name to take a look.</p>
-                    <small>Disclaimer: data may (will) be incorrect or missing.</small>
+                    <p>Below may be a list of gliding clubs or sites for which logs exist. If there is a number next to a site name, launches have been detected there today. Click a site name to take a look.</p>
+                    <small>Disclaimer: data may (will) be incorrect or missing, so logkeepers should practice use of their MK.I eyeballs to look out.</small>
                 </div>
             </div>
 

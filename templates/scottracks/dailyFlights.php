@@ -32,7 +32,6 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
     <div class="wrapper">
         <!-- Sidebar -->
         <?php include('includes/sidebar.php'); ?>
-
         <div id="content">
 
             <!-- Navbar -->
@@ -59,7 +58,7 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
             <div class="container-fluid">
                 <div class="row">
                     <div class="col">
-                        <h4><?php echo ucwords($data['airfield_name']);?></h4>
+                        <h4><?php echo $data['airfield_name'];?></h4>
                     </div>
 
                     <div class="col">

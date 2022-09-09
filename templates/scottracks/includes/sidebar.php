@@ -83,5 +83,9 @@
         <li>
             <a href="mailto:scott@scottedkeenan.co.uk">Contact</a>
         </li>
+        <li>
+            <a href="https://www.google.com/maps/d/u/0/viewer?mid=12Mkja9NRonB9biUhZI4Pu2hoIrVog6Us&ll=54.08888904285983%2C-0.8666942000000017&z=7">Range</a>
+
+        </li>
     </ul>
 </nav>
