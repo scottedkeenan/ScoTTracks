@@ -94,9 +94,9 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
                     <tr>
                         <th scope="col" class="align-top">
                             <?php if ($data['order_by'] === 'desc'): ?>
-                                <a href="<?php echo isset($data['airfield_id']) ? $data['airfield_id'] . '/' . $dates[$dateIndex] : $dates[$dateIndex] . '?order_by=asc'?>" class="align-top">#</a>
+                                <a href="<?php echo isset($data['airfield_id']) ? $data['airfield_id'] . '/' . $dates[$dateIndex] . '?order_by=asc' : $dates[$dateIndex] . '?order_by=asc'?>" class="align-top">#</a>
                             <?php else: ?>
-                                <a href="<?php echo isset($data['airfield_id']) ? $data['airfield_id'] . '/' . $dates[$dateIndex] : $dates[$dateIndex] . '?order_by=desc'?>" class="align-top">#</a>
+                                <a href="<?php echo isset($data['airfield_id']) ? $data['airfield_id'] . '/' . $dates[$dateIndex] . '?order_by=desc' : $dates[$dateIndex] . '?order_by=desc'?>" class="align-top">#</a>
                             <?php endif; ?>
                         </th>
                         <th scope="col" class="align-top">Reg</th>
