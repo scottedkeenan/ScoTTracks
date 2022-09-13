@@ -161,15 +161,16 @@ class DailyFlightsRepository
 
     }
 
-    public function getDistinctAirfieldNamesFlownTodayByCountry($countryCode): array
+    public function getDistinctFlownAirfieldNamesByCountryDate($countryCode, $date=null): array
     {
+        $insertDate = $date ? "'$date'" : 'current_date';
         $query = "
                     SELECT takeoff_airfield, name, icao, COUNT(takeoff_airfield) as `num`
                     FROM daily_flights
                     INNER JOIN airfields ON daily_flights.takeoff_airfield = airfields.id
                     WHERE takeoff_airfield IS NOT NULL
                     AND takeoff_airfield != 'unknown'
-                    AND daily_flights.takeoff_timestamp > current_date
+                    AND daily_flights.takeoff_timestamp BETWEEN $insertDate AND $insertDate + INTERVAL 1 DAY
                     AND country_code = '$countryCode'
                     GROUP BY takeoff_airfield
                     ORDER BY name;

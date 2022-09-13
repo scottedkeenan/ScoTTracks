@@ -79,10 +79,10 @@ final class DailyFlightsService
         return $airfieldNames;
     }
 
-    public function getDistinctAirfieldNamesFlownTodayByCountry($countryCode): array
+    public function getDistinctFlownAirfieldNamesByCountryDate($countryCode, $date=null): array
     {
         //get daily flight dates
-        $airfieldNames = $this->repository->getDistinctAirfieldNamesFlownTodayByCountry($countryCode);
+        $airfieldNames = $this->repository->getDistinctFlownAirfieldNamesByCountryDate($countryCode, $date);
 
         // Logging here: User created successfully
         //$this->logger->info(sprintf('User created successfully: %s', $userId));
