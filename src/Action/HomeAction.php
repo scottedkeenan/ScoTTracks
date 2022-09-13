@@ -15,6 +15,7 @@ final class HomeAction
     public function __construct(DailyFlightsService $dailyFlights)
     {
         $this->dailyFlights = $dailyFlights;
+        date_default_timezone_set('Europe/London');
     }
 
     public function __invoke(
