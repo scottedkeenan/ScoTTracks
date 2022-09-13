@@ -7,7 +7,7 @@
                     <?php
                     foreach ($data['flown_today'] as $id => $airfield):
                         $clean_url = url($id);
-                        $url = sprintf('/airfields/%s', $clean_url);
+                        $url = sprintf('/airfields/%s/%s', $clean_url, $data['date']);
                         ?>
                         <a href="<?php echo $url;?>" class="list-group-item list-group-item-action">
                             <?php echo ucwords(strtolower($airfield['name'])); ?>
