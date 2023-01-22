@@ -26,10 +26,10 @@ final class DailyFlightsAction
     ): ResponseInterface
     {
 
-        if ($args['date']) {
+        if ($request->getQueryParams()['date']) {
             // todo: redirect if not a date
 //            return $response->withHeader('Location', '/')->withStatus(404);
-            $showDate = $args['date'];
+            $showDate = $request->getQueryParams()['date'];
         } else {
             date_default_timezone_set('Europe/London');
             $showDate = date('Y-m-d');
@@ -44,10 +44,10 @@ final class DailyFlightsAction
 
         //invoke the domain
         $data['airfield_name'] = $this->airfields->getAirfieldNameByID($args['airfield_id']);
-        $data['flight_data'] = $this->dailyFlights->getDailyFlights($args['airfield_id'], $showDate, $request->getQueryParams()['order_by'] ?? 'ASC');
+        $data['flight_data'] = $this->dailyFlights->getDailyFlights($args['airfield_id'], $showDate, $request->getQueryParams()['order_by'] ?? 'asc');
         $data['dates'] = $this->dailyFlights->getDailyFlightDatesForAirfield($args['airfield_id']);
         $data['show_date'] = $showDate;
-        $data['order_by'] = $request->getQueryParams()['order_by'] ?? 'ASC';
+        $data['order_by'] = $request->getQueryParams()['order_by'] ?? 'asc';
 
 
         $renderer = new PhpRenderer('../templates/scottracks');
