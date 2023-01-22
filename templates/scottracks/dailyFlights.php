@@ -107,13 +107,9 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
                         $launch_height = round($row['launch_height'] * 3.28084);
 
                         if ($takeoff_time && $landing_time) {
-                            $graph_path = '/graphs/' . $registration . '-' . $takeoff_time->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
-                            if (!(file_exists('.' . $graph_path))) {
-                                $graph_path = 'https://scotttracks-graphs.s3-eu-west-1.amazonaws.com/graphs/' . $row['address'] . '-' .  (new DateTime($row['takeoff_timestamp']))->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
-                            }
-
+                            $flight_path = '/flight/' . $row['address'] . '/' . (new DateTime($row['takeoff_timestamp']))->format('Y-m-d-H-i-s');
                         } else {
-                            $graph_path = null;
+                            $flight_path = null;
                         }
                         
                         if ($takeoff_time && $landing_time) {
@@ -153,7 +149,7 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
                             <td class="daily-flights-ln-num"><?php echo $rowCount; ?></td>
                             <td class="daily-flights">
                                 <div>
-                                    <?php echo !is_null($graph_path) ? '<a href="' . $graph_path . '">' : ''?><?php echo str_replace('-', '‑', $registration);?><?php echo !is_null($graph_path) ? '</a>' : ''?>
+                                    <?php echo !is_null($flight_path) ? '<a href="' . $flight_path . '">' : ''?><?php echo str_replace('-', '‑', $registration);?><?php echo !is_null($flight_path) ? '</a>' : ''?>
                                 </div>
                                 <div class="detailed">
                                     <?php if ($row['aircraft_model']):
