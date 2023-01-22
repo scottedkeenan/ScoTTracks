@@ -26,10 +26,10 @@ final class DailyFlightsAction
     ): ResponseInterface
     {
 
-        if ($args['date']) {
+        if ($request->getQueryParams()['date']) {
             // todo: redirect if not a date
 //            return $response->withHeader('Location', '/')->withStatus(404);
-            $showDate = $args['date'];
+            $showDate = $request->getQueryParams()['date'];
         } else {
             date_default_timezone_set('Europe/London');
             $showDate = date('Y-m-d');
