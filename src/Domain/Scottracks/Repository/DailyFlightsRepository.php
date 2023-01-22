@@ -25,6 +25,21 @@ class DailyFlightsRepository
         $this->connection = $connection;
     }
 
+    public function getFlight($address, $takeoffTime): array
+    {
+        $sql = "
+                    SELECT daily_flights.*, toff.name AS takeoff_airfield_name, lndg.name AS landing_airfield_name
+                    FROM daily_flights 
+                    LEFT JOIN airfields toff ON daily_flights.takeoff_airfield = `toff`.`id`
+                    LEFT JOIN airfields lndg ON daily_flights.landing_airfield = `lndg`.`id`
+                    WHERE takeoff_timestamp = '$takeoffTime'
+                ";
+
+        return $this->connection->query($sql)->fetchAll();
+
+    }
+
+
     public function getDailyFlights($airfieldID, $showDate, $order='ASC'): array
     {
         $sql = "

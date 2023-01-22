@@ -21,7 +21,7 @@ return function (App $app) {
 //    $app->get('countries/{country}/stats', \App\Action\CountryStatsAction::class)->setName('countrystats');
     $app->get('/stats/averages', \App\Action\StatsAveragesAction::class)->setName('averages');
 
-    $app->get('/flight/detail', \App\Action\FlightDetailAction::class)->setName('detail');
+    $app->get('/flight/{address}/{takeoff_time}', \App\Action\FlightAction::class)->setName('flight');
 
 };
 

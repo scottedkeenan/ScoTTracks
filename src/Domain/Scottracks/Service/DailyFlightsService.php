@@ -24,6 +24,12 @@ final class DailyFlightsService
         $this->repository = $repository;
     }
 
+    public function getFlight(string $address, $takeoffTime): array
+    {
+        // Get flight
+        return $this->repository->getFlight($address, $takeoffTime);
+    }
+
     public function getDailyFlights(string $airfieldID, $showDate, $order): array
     {
         // Get daily flights
