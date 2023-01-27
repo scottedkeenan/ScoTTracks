@@ -45,6 +45,10 @@ function url($url) {
             <!-- Navbar -->
             <?php include('includes/navbar.php'); ?>
 
+            <div>
+                <a href=<?php echo sprintf("/airfields/%s?date=%s",$data['flight']['takeoff_airfield'], $data['flight']['launch_date']) ?> >< Back</a>
+            </div>
+
             <?php
             $flight_data = $data['flight'];
             ?>
@@ -94,8 +98,6 @@ function url($url) {
                     <img class="img-fluid" src=<?php echo $data['flight_graph_url']?> title="Speed and Height of flight"></iframe>
                 </div>
             </div>
-
-
         </div>
     </div>
 

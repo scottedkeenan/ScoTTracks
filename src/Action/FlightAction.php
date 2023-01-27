@@ -57,6 +57,8 @@ final class FlightAction
 
         $data['flight']['duration'] = date_diff($takeoff_time, $landing_time)->format('%h:%I:%S');
 
+        $data['flight']['launch_date'] = date_format(new DateTime($data['flight']['takeoff_timestamp'], $trackerTimezone), 'Y-m-d');
+
         $renderer = new PhpRenderer('../templates/scottracks');
         return $renderer->render($response, "flight.php", $data);
     }
