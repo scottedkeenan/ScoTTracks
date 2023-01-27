@@ -28,12 +28,12 @@ final class FlightAction
     ): ResponseInterface {
 
         //invoke the domain
-        $data['flight_map_url'] = sprintf(
+        $data['flight_graph_url'] = sprintf(
             'https://scotttracks-graphs.s3.eu-west-1.amazonaws.com/graphs/%s-%s.png',
             $args['address'],
             $args['takeoff_time']
         );
-        $data['flight_graph_url'] = sprintf(
+        $data['flight_map_url'] = sprintf(
             'https://scotttracks-graphs.s3-eu-west-1.amazonaws.com/maps/%s-%s.html',
             $args['address'],
             $args['takeoff_time']

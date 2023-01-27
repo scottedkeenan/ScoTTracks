@@ -48,47 +48,54 @@ function url($url) {
             <?php
             $flight_data = $data['flight'];
             ?>
+            <div>
+                <table class="table table-sm small">
+                    <tbody>
+                    <tr>
+                        <th scope="row">Reg</th>
+                        <td><?php echo $flight_data['registration']; ?></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Model</th>
+                        <td><?php echo $flight_data['aircraft_model']; ?></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Takeoff</th>
+                        <td><?php echo sprintf(
+                                '%s @ %s',
+                                $flight_data['takeoff_timestamp'],
+                                $flight_data['takeoff_airfield_name']
+                            ) ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Landing</th>
+                        <td><?php echo sprintf(
+                                '%s @ %s',
+                                $flight_data['landing_timestamp'],
+                                $flight_data['landing_airfield_name']
+                            ) ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Duration</th>
+                        <td><?php echo $flight_data['duration'];?></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <div class="col-sm-8">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe src=<?php echo $data['flight_map_url']?> title="Map of flight"></iframe>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <img class="img-fluid" src=<?php echo $data['flight_graph_url']?> title="Speed and Height of flight"></iframe>
+                </div>
+            </div>
 
-            <table class="table">
-                <tbody>
-                <tr>
-                    <th scope="row">Reg</th>
-                    <td><?php echo $flight_data['registration']; ?></td>
-                </tr>
-                <tr>
-                    <th scope="row">Model</th>
-                    <td><?php echo $flight_data['aircraft_model']; ?></td>
-                </tr>
-                <tr>
-                    <th scope="row">Takeoff</th>
-                    <td><?php echo sprintf(
-                            '%s @ %s',
-                            $flight_data['takeoff_timestamp'],
-                            $flight_data['takeoff_airfield_name']
-                        ) ?>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">Landing</th>
-                    <td><?php echo sprintf(
-                            '%s @ %s',
-                            $flight_data['landing_timestamp'],
-                            $flight_data['landing_airfield_name']
-                        ) ?>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">Duration</th>
-                    <td><?php echo $flight_data['duration'];?></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe src=<?php echo $data['flight_graph_url']?> title="Speed and Height of flight"></iframe>
-            </div>
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe src=<?php echo $data['flight_map_url']?> title="Map of flight"></iframe>
-            </div>
+
         </div>
     </div>
 
