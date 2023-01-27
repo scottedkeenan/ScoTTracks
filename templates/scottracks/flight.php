@@ -84,7 +84,6 @@ function url($url) {
                     </tbody>
                 </table>
             </div>
-
             <div>
                 <div class="col-sm-8">
                     <div class="embed-responsive embed-responsive-16by9">
@@ -95,6 +94,7 @@ function url($url) {
                     <img class="img-fluid" src=<?php echo $data['flight_graph_url']?> title="Speed and Height of flight"></iframe>
                 </div>
             </div>
+
 
         </div>
     </div>
