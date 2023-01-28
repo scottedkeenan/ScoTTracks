@@ -33,6 +33,7 @@ class DailyFlightsRepository
                     LEFT JOIN airfields toff ON daily_flights.takeoff_airfield = `toff`.`id`
                     LEFT JOIN airfields lndg ON daily_flights.landing_airfield = `lndg`.`id`
                     WHERE takeoff_timestamp = '$takeoffTime'
+                    AND address = '$address';
                 ";
 
         return $this->connection->query($sql)->fetchAll();
