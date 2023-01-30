@@ -112,7 +112,7 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
                         $flight_path = null;
                         if ($takeoff_time && $landing_time) {
                             if ($landing_time > $distributionLandingCutoff) {
-                                $flight_path = '/flight/' . $row['address'] . '/' . (new DateTime($row['takeoff_timestamp']))->format('Y-m-d-H-i-s');
+                                $flight_path = '/flight/' . $row['address'] . '/' . $takeoff_time->format('Y-m-d-H-i-s');
                             }
                         }
                         
