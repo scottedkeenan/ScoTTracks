@@ -38,8 +38,7 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
                 $dateIndex = array_search($data['show_date'] ,$dates);
 
                 // -24 hours for OGN data policy (no redistribute)
-                $distributionLandingCutoff = date("Y-m-d h:i:s", strtotime('-24 Hours'));
-
+                $distributionLandingCutoff = new DateTime('now -24 Hours');
             ?>
 
             <div class="container-fluid">
@@ -112,7 +111,7 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
 
                         $flight_path = null;
                         if ($takeoff_time && $landing_time) {
-                            if (new DateTime($row['landing_timestamp'] < $distributionLandingCutoff)) {
+                            if ($landing_time > $distributionLandingCutoff) {
                                 $flight_path = '/flight/' . $row['address'] . '/' . (new DateTime($row['takeoff_timestamp']))->format('Y-m-d-H-i-s');
                             }
                         }
