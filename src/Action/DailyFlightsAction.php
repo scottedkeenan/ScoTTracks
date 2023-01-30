@@ -44,6 +44,7 @@ final class DailyFlightsAction
 
         //invoke the domain
         $data['airfield_name'] = $this->airfields->getAirfieldNameByID($args['airfield_id']);
+        $data['airfield_followed'] = $this->airfields->getAirfieldTrackedByID($args['airfield_id']);
         $data['flight_data'] = $this->dailyFlights->getDailyFlights($args['airfield_id'], $showDate, $request->getQueryParams()['order_by'] ?? 'asc');
         $data['dates'] = $this->dailyFlights->getDailyFlightDatesForAirfield($args['airfield_id']);
         $data['show_date'] = $showDate;

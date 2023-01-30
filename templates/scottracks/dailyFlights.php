@@ -39,7 +39,7 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
 
                 // -24 hours for OGN data policy (no redistribute)
                 $distributionLandingCutoff = new DateTime('now -24 Hours');
-            ?>
+                ?>
 
             <div class="container-fluid">
                 <div class="row">
@@ -110,7 +110,7 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
                         $launch_height = round($row['launch_height'] * 3.28084);
 
                         $flight_path = null;
-                        if ($takeoff_time && $landing_time) {
+                        if ($data['airfield_followed'] && $takeoff_time && $landing_time) {
                             if ($landing_time > $distributionLandingCutoff) {
                                 $flight_path = '/flight/' . $row['address'] . '/' . $takeoff_time->format('Y-m-d-H-i-s');
                             }
