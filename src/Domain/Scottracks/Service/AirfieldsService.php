@@ -56,4 +56,20 @@ final class AirfieldsService
 //        }
         return $name[0]['name'];
     }
+
+    public function getAirfieldTrackedByID($airfieldID): bool
+    {
+        // Get daily flights
+        $tracked = $this->repository->getTracked($airfieldID);
+
+        // Logging here: User created successfully
+        //$this->logger->info(sprintf('User created successfully: %s', $userId));
+
+//        if ($niceName[0]['nice_name']) {
+//            return $niceName[0]['nice_name'];
+//        } else {
+//            return 'no name';
+//        }
+        return $tracked;
+    }
 }

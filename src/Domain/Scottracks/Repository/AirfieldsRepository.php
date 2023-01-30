@@ -49,5 +49,18 @@ class AirfieldsRepository
 
     }
 
+    public function getTracked($airfieldID): bool
+    {
+        $sql = "
+                    SELECT follow_aircraft
+                    FROM airfields
+                    WHERE id = '$airfieldID';
+                ";
+
+        $response = $this->connection->query($sql)->fetchAll();
+        return (bool)$response[0]['follow_aircraft'];
+
+    }
+
 }
 
