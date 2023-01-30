@@ -150,55 +150,53 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
                         ?>
 
                         <tr>
-                            <a style="display:block" href="http://justinbieber.com">
-                                <td class="daily-flights-ln-num"><?php echo $rowCount; ?></td>
-                                <td class="daily-flights">
-                                    <div>
-                                        <?php echo !is_null($flight_path) ? '<a href="' . $flight_path . '">' : ''?><?php echo str_replace('-', '‑', $registration);?><?php echo !is_null($flight_path) ? '</a>' : ''?>
-                                    </div>
-                                    <div class="detailed">
-                                        <?php if ($row['aircraft_model']):
-                                            echo $row['aircraft_model'];
-                                        endif; ?>
-                                        <?php if ($row['competition_number']):
-                                            echo ' | ' . $row['competition_number'];
-                                        endif; ?>
-                                    </div>
-                                </td>
-                                <td class="daily-flights">
-                                    <div>
-                                        <?php echo $takeoff_timestamp; ?>
-                                    </div>
-                                    <div class="detailed">
-                                        <?php if ($launch_type !== '--'): ?>
-                                            <?php if (is_null($launch_height) || !((int)$launch_height <= 0)): ?>
-                                                <?php echo $launch_height . ' ft | '; ?>
-                                            <?php endif; ?>
-                                                <?php echo str_replace('-', '‑', $launch_type); ?>
+                            <td class="daily-flights-ln-num"><?php echo $rowCount; ?></td>
+                            <td class="daily-flights">
+                                <div>
+                                    <?php echo !is_null($flight_path) ? '<a href="' . $flight_path . '">' : ''?><?php echo str_replace('-', '‑', $registration);?><?php echo !is_null($flight_path) ? '</a>' : ''?>
+                                </div>
+                                <div class="detailed">
+                                    <?php if ($row['aircraft_model']):
+                                        echo $row['aircraft_model'];
+                                    endif; ?>
+                                    <?php if ($row['competition_number']):
+                                        echo ' | ' . $row['competition_number'];
+                                    endif; ?>
+                                </div>
+                            </td>
+                            <td class="daily-flights">
+                                <div>
+                                    <?php echo $takeoff_timestamp; ?>
+                                </div>
+                                <div class="detailed">
+                                    <?php if ($launch_type !== '--'): ?>
+                                        <?php if (is_null($launch_height) || !((int)$launch_height <= 0)): ?>
+                                            <?php echo $launch_height . ' ft | '; ?>
                                         <?php endif; ?>
-                                        <?php if (!is_null($row['takeoff_airfield_name']) && $row['takeoff_airfield_name'] != $data['airfield_name']):
-                                            echo sprintf('@ %s', $row['takeoff_airfield_name']);
-                                        endif; ?>
-                                    </div>
-                                </td>
-                                <td class="daily-flights">
-                                    <div>
-                                        <?php echo $landing_timestamp; ?>
-                                    </div>
-                                    <div class="text-center">
-                                        <?php echo !is_null($flight_path) ?
-                                            '<a href="' . $flight_path . '">' .
-                                            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>' .
-                                            '</a>' : ''?>
-                                    </div>
-                                    <div class="detailed">
-                                        <?php if (!is_null($row['landing_airfield_name']) && $row['landing_airfield_name'] != $data['airfield_name']):
-                                            echo sprintf('@ %s', $row['landing_airfield_name']);
-                                        endif; ?>
-                                    </div>
-                                </td>
-                                <td class="daily-flights"><?php echo $duration; ?></td>
-                            </a>
+                                            <?php echo str_replace('-', '‑', $launch_type); ?>
+                                    <?php endif; ?>
+                                    <?php if (!is_null($row['takeoff_airfield_name']) && $row['takeoff_airfield_name'] != $data['airfield_name']):
+                                        echo sprintf('@ %s', $row['takeoff_airfield_name']);
+                                    endif; ?>
+                                </div>
+                            </td>
+                            <td class="daily-flights">
+                                <div>
+                                    <?php echo $landing_timestamp; ?>
+                                </div>
+                                <div class="text-center">
+                                    <?php echo !is_null($flight_path) ?
+                                        '<a href="' . $flight_path . '">' .
+                                        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>' .
+                                        '</a>' : ''?>
+                                </div>
+                                <div class="detailed">
+                                    <?php if (!is_null($row['landing_airfield_name']) && $row['landing_airfield_name'] != $data['airfield_name']):
+                                        echo sprintf('@ %s', $row['landing_airfield_name']);
+                                    endif; ?>
+                                </div>
+                            </td>
+                            <td class="daily-flights"><?php echo $duration; ?></td>
                         </tr>
 
                         <?php
