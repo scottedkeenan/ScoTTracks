@@ -4,10 +4,11 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Container\ContainerInterface;
 use Slim\App;
 
 
-return function (App $app) {
+return function (App $app, ContainerInterface $container) {
 
     $app->get('/', \App\Action\HomeAction::class)->setName('home');
 //    $app->get('sites/stats', \App\Action\AllSitesStatsAction::class)->setName('allsitesstats');
@@ -22,7 +23,14 @@ return function (App $app) {
     $app->get('/stats/averages', \App\Action\StatsAveragesAction::class)->setName('averages');
 
     $app->get('/flight/{address}/{takeoff_time}', \App\Action\FlightAction::class)->setName('flight');
-
+    // Injecting the container into LiveAction
+    $app->get('/live', function ($request, $response, $args) use ($container) {
+        $liveAction = new \App\Action\LiveAction(
+            $container->get(\App\Domain\Scottracks\Service\DailyFlightsService::class),
+            $container
+        );
+        return $liveAction($request, $response);
+    })->setName('live');
 };
 
 
