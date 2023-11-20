@@ -1,10 +1,6 @@
 <!doctype html>
 
-<?php date_default_timezone_set('Europe/London');
-
-//die(print_r($data));
-
-?>
+<?php date_default_timezone_set('Europe/London'); ?>
 
 
 <html lang="en">
@@ -97,12 +93,34 @@
                     onEachFeature: popUp  // Custom function to handle popups for each feature
                 }).addTo(m);
 
+                // Temporary layer to hold the new data
+                var tempAircraftLayer = new L.GeoJSON(null, {
+                    onEachFeature: popUp  // Apply the same custom function to handle popups for each feature
+                });
+
                 // Function to fetch and update GeoJSON data
                 function updateGeoJSONData() {
-                    // Clear existing layers in the GeoJSON layer
-                    aircraftLayer.clearLayers();
-                    // Fetch new GeoJSON data and add it to the existing layer
-                    aircraftLayer.refresh([data['aircraft_geojson_url']]);
+                    // Fetch new GeoJSON data
+                    $.ajax({
+                        url: data['aircraft_geojson_url'],
+                        dataType: 'json',
+                        success: function (newData) {
+                            // Clear the temporary layer
+                            tempAircraftLayer.clearLayers();
+
+                            // Add the new data to the temporary layer
+                            tempAircraftLayer.addData(newData, {
+                                onEachFeature: popUp  // Custom function to handle popups for each feature
+                            })
+
+                            // Replace the existing layer with the temporary one
+                            m.removeLayer(aircraftLayer);
+                            aircraftLayer = tempAircraftLayer.addTo(m);
+                        },
+                        error: function (error) {
+                            console.error('Error fetching GeoJSON data:', error);
+                        }
+                    });
                 }
 
                 // Update GeoJSON data every 10 seconds
