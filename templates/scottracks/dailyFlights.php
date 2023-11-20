@@ -3,7 +3,6 @@
 <?php
 $siteTimezone = new DateTimeZone('Europe/London');
 $trackerTimezone = new DateTimeZone('UTC');
-$offset = $siteTimezone->getOffset($trackerTimezone);
 ?>
 
 
