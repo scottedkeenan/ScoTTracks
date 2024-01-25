@@ -3,7 +3,13 @@
 <?php
 $siteTimezone = new DateTimeZone('Europe/London');
 $trackerTimezone = new DateTimeZone('UTC');
-$offset = $siteTimezone->getOffset($trackerTimezone);
+// $offset = $siteTimezone->getOffset($trackerTimezone);
+
+// Create a DateTime object with the current time and the tracker timezone
+$currentTimeInTrackerTimezone = new DateTime('now', $trackerTimezone);
+
+// Get the offset using the DateTime object in the site timezone
+$offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
 ?>
 
 
@@ -123,15 +129,31 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
                         $landing_timestamp = $landing_time ? $landing_time->format('H:i:s') : $row['status'];
                         $launch_height = round($row['launch_height'] * 3.28084);
 
-                        if ($takeoff_time && $landing_time) {
-                            $graph_path = '/graphs/' . $registration . '-' . $takeoff_time->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
-                            if (!(file_exists('.' . $graph_path))) {
-                                $graph_path = 'https://scotttracks-graphs.s3-eu-west-1.amazonaws.com/graphs/' . $row['address'] . '-' .  (new DateTime($row['takeoff_timestamp']))->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
-                            }
+                        $graph_path = null;
 
-                        } else {
-                            $graph_path = null;
-                        }
+
+//                        if ($takeoff_time && $landing_time) {
+//                            $graph_path = '/graphs/' . $registration . '-' . $takeoff_time->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
+//                            if (!(file_exists('.' . $graph_path))) {
+//                                $graph_path = 'https://scotttracks-graphs.s3-eu-west-1.amazonaws.com/graphs/' . $row['address'] . '-' .  (new DateTime($row['takeoff_timestamp']))->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
+//                            }
+//
+//                        } else {
+//                            $graph_path = null;
+//                        }
+
+                        
+                        $chartLeadTime = new DateTime('now -11 Minutes');
+                        
+                        $flight_path = null;
+                        // if ($data['airfield_followed'] && $takeoff_time && $landing_time) {
+                        // if ($takeoff_time && $landing_time) {
+                        //     if ($chartLeadTime > $landing_time && $landing_time > $distributionLandingCutoff) {
+                        //         $takeoff_time_utc = new DateTime($row['takeoff_timestamp'], $trackerTimezone);
+                        //         $flight_path = '/flight/' . $row['address'] . '/' . $takeoff_time_utc->format('Y-m-d-H-i-s');
+                        //     }
+                        // }
+
                         
                         if ($takeoff_time && $landing_time) {
                             $duration = date_diff($takeoff_time, $landing_time)->format('%h:%I:%S');
@@ -201,6 +223,13 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
                                 <div>
                                     <?php echo $landing_timestamp; ?>
                                 </div>
+
+//                                    <div class="text-center">
+//                                    <?php echo !is_null($flight_path) ?
+//                                        '<a href="' . $flight_path . '">' .
+//                                        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>' .
+//                                        '</a>' : ''?>
+//                                    </div>
                                 <div class="detailed">
                                     <?php if (!is_null($row['landing_airfield_name']) && $row['landing_airfield_name'] != $data['airfield_name']):
                                         echo sprintf('@ %s', $row['landing_airfield_name']);
@@ -224,6 +253,7 @@ $offset = $siteTimezone->getOffset($trackerTimezone);
             </div>
         </div>
     </div>
+    <?php include('includes/footer.html'); ?>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
