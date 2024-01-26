@@ -11,7 +11,6 @@ $currentTimeInTrackerTimezone = new DateTime('now', $trackerTimezone);
 // Get the offset using the DateTime object in the site timezone
 $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
 
-//die(print_r($data));
 ?>
 
 
