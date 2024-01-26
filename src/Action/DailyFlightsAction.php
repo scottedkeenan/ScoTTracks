@@ -26,17 +26,18 @@ final class DailyFlightsAction
     ): ResponseInterface
     {
 
-        if ($args['date']) {
+        if (in_array('date', array_keys($request->getQueryParams()))) {
             // todo: redirect if not a date
 //            return $response->withHeader('Location', '/')->withStatus(404);
-            $showDate = $args['date'];
+            $data['airfield_id'] = $args['airfield_id'];
+            $showDate = $request->getQueryParams()['date'];
         } else {
             date_default_timezone_set('Europe/London');
             $showDate = date('Y-m-d');
             $data['airfield_id'] = $args['airfield_id'];
         }
 
-        if ($request->getQueryParams()['order_by']) {
+        if (in_array('order_by', array_keys($request->getQueryParams()))) {
             if (!in_array($request->getQueryParams()['order_by'],['asc', 'desc'])) {
                 return $response->withHeader('Location', '/')->withStatus(400);
             }
@@ -44,6 +45,7 @@ final class DailyFlightsAction
 
         //invoke the domain
         $data['airfield_name'] = $this->airfields->getAirfieldNameByID($args['airfield_id']);
+        $data['airfield_followed'] = $this->airfields->getAirfieldTrackedByID($args['airfield_id']);
         $data['flight_data'] = $this->dailyFlights->getDailyFlights($args['airfield_id'], $showDate, $request->getQueryParams()['order_by'] ?? 'asc');
         $data['dates'] = $this->dailyFlights->getDailyFlightDatesForAirfield($args['airfield_id']);
         $data['show_date'] = $showDate;

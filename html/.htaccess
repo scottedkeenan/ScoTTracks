@@ -29,9 +29,9 @@
 </IfModule>
 # END cPanel-generated php ini directives, do not edit
 
-order deny,allow
-deny from all
-allow from 78.149.61.105
+#order deny,allow
+#deny from all
+#allow from 78.149.61.105
 
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f

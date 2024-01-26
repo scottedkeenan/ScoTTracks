@@ -10,29 +10,14 @@ $currentTimeInTrackerTimezone = new DateTime('now', $trackerTimezone);
 
 // Get the offset using the DateTime object in the site timezone
 $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
+
+//die(print_r($data));
 ?>
 
 
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Sidebar meta -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="/css/sidebar.css" />
-
-    <!-- Font Awesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-
-    <title>ScoTTracks</title>
+    <?php include('includes/head.phtml'); ?>
 </head>
 <body>
     <div class="wrapper">
@@ -59,7 +44,10 @@ $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
                 usort($dates, "date_sort");
 
                 $dateIndex = array_search($data['show_date'] ,$dates);
-            ?>
+
+                // -24 hours for OGN data policy (no redistribute)
+                $distributionLandingCutoff = new DateTime('now -24 Hours');
+                ?>
 
             <div class="container-fluid">
                 <div class="row">
@@ -80,10 +68,10 @@ $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
                     <thead>
                     <tr>
                         <th scope="col" class="align-top">
-                            <?php if ($data['order_by'] === 'desc'): ?>
-                                <a href="<?php echo isset($data['airfield_id']) ? $data['airfield_id'] . '/' . $dates[$dateIndex] . '?order_by=asc' : $dates[$dateIndex] . '?order_by=asc'?>" class="align-top">#</a>
+                            <?php if ($data['order_by'] === 'asc'): ?>
+                                <a href="<?php echo $data['airfield_id'] . '?date=' . $dates[$dateIndex] . '&order_by=desc'?>" class="align-top">#</a>
                             <?php else: ?>
-                                <a href="<?php echo isset($data['airfield_id']) ? $data['airfield_id'] . '/' . $dates[$dateIndex] . '?order_by=desc' : $dates[$dateIndex] . '?order_by=desc'?>" class="align-top">#</a>
+                                <a href="<?php echo $data['airfield_id'] . '?date=' . $dates[$dateIndex] . '&order_by=asc'?>" class="align-top">#</a>
                             <?php endif; ?>
                         </th>
                         <th scope="col" class="align-top">Reg</th>
@@ -128,20 +116,6 @@ $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
 
                         $landing_timestamp = $landing_time ? $landing_time->format('H:i:s') : $row['status'];
                         $launch_height = round($row['launch_height'] * 3.28084);
-
-                        $graph_path = null;
-
-
-//                        if ($takeoff_time && $landing_time) {
-//                            $graph_path = '/graphs/' . $registration . '-' . $takeoff_time->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
-//                            if (!(file_exists('.' . $graph_path))) {
-//                                $graph_path = 'https://scotttracks-graphs.s3-eu-west-1.amazonaws.com/graphs/' . $row['address'] . '-' .  (new DateTime($row['takeoff_timestamp']))->format('Y-m-d-H-i-s') . '.png'; //2020-12-01-15:02:55.png"
-//                            }
-//
-//                        } else {
-//                            $graph_path = null;
-//                        }
-
                         
                         $chartLeadTime = new DateTime('now -11 Minutes');
                         
@@ -153,7 +127,6 @@ $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
                         //         $flight_path = '/flight/' . $row['address'] . '/' . $takeoff_time_utc->format('Y-m-d-H-i-s');
                         //     }
                         // }
-
                         
                         if ($takeoff_time && $landing_time) {
                             $duration = date_diff($takeoff_time, $landing_time)->format('%h:%I:%S');
@@ -192,7 +165,7 @@ $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
                             <td class="daily-flights-ln-num"><?php echo $rowCount; ?></td>
                             <td class="daily-flights">
                                 <div>
-                                    <?php echo !is_null($graph_path) ? '<a href="' . $graph_path . '">' : ''?><?php echo str_replace('-', '‑', $registration);?><?php echo !is_null($graph_path) ? '</a>' : ''?>
+                                    <?php echo !is_null($flight_path) ? '<a href="' . $flight_path . '">' : ''?><?php echo str_replace('-', '‑', $registration);?><?php echo !is_null($flight_path) ? '</a>' : ''?>
                                 </div>
                                 <div class="detailed">
                                     <?php if ($row['aircraft_model']):
@@ -223,13 +196,12 @@ $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
                                 <div>
                                     <?php echo $landing_timestamp; ?>
                                 </div>
-
-//                                    <div class="text-center">
-//                                    <?php echo !is_null($flight_path) ?
-//                                        '<a href="' . $flight_path . '">' .
-//                                        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>' .
-//                                        '</a>' : ''?>
-//                                    </div>
+                                    <div class="text-center">
+                                    <?php echo !is_null($flight_path) ?
+                                        '<a href="' . $flight_path . '">' .
+                                        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>' .
+                                        '</a>' : ''?>
+                                    </div>
                                 <div class="detailed">
                                     <?php if (!is_null($row['landing_airfield_name']) && $row['landing_airfield_name'] != $data['airfield_name']):
                                         echo sprintf('@ %s', $row['landing_airfield_name']);
@@ -254,12 +226,6 @@ $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
         </div>
     </div>
     <?php include('includes/footer.html'); ?>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
     <?php include('includes/navbar_toggle.php'); ?>
 
