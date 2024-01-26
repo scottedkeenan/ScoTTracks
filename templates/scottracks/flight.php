@@ -1,10 +1,14 @@
 <!doctype html>
 
-<?php 
-date_default_timezone_set('Europe/London');
+<?php
 $siteTimezone = new DateTimeZone('Europe/London');
 $trackerTimezone = new DateTimeZone('UTC');
-$offset = $siteTimezone->getOffset($trackerTimezone);
+
+// Create a DateTime object with the current time and the tracker timezone
+$currentTimeInTrackerTimezone = new DateTime('now', $trackerTimezone);
+
+// Get the offset using the DateTime object in the site timezone
+$offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
 ?>
 
 <?php
@@ -56,7 +60,7 @@ function url($url) {
 
             <?php
             $flight_data = $data['flight'];
-            
+
             $takeoff_time = $data['flight']['takeoff_timestamp'] ? new DateTime($data['flight']['takeoff_timestamp'], $trackerTimezone) : null;
             if ($takeoff_time) {
                 $takeoff_time->setTimeZone($siteTimezone);
@@ -67,10 +71,6 @@ function url($url) {
                 }
             $takeoff_timestamp = $takeoff_time ? $takeoff_time->format('H:i:s') : '--';
             $landing_timestamp = $landing_time ? $landing_time->format('H:i:s') : '--';
-
-
-            
-            
             ?>
             <div>
                 <table class="table table-sm small">
@@ -129,7 +129,5 @@ function url($url) {
 
     <?php include('includes/navbar_toggle.php'); ?>
     <?php include('includes/footer.html'); ?>
-
-
 </body>
 </html>

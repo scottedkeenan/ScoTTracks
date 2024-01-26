@@ -47,8 +47,5 @@ function url($url) {
     </div>
     <?php include('includes/footer.html'); ?>
     <?php include('includes/navbar_toggle.php'); ?>
-
-
-
 </body>
 </html>

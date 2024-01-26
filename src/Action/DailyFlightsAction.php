@@ -26,7 +26,7 @@ final class DailyFlightsAction
     ): ResponseInterface
     {
 
-        if (in_array('date', array_keys($request->getQueryParams()))) {
+        if (isset($request->getQueryParams()['date'])) {
             // todo: redirect if not a date
 //            return $response->withHeader('Location', '/')->withStatus(404);
             $data['airfield_id'] = $args['airfield_id'];
@@ -37,7 +37,7 @@ final class DailyFlightsAction
             $data['airfield_id'] = $args['airfield_id'];
         }
 
-        if (in_array('order_by', array_keys($request->getQueryParams()))) {
+        if (isset($request->getQueryParams()['order_by'])) {
             if (!in_array($request->getQueryParams()['order_by'],['asc', 'desc'])) {
                 return $response->withHeader('Location', '/')->withStatus(400);
             }

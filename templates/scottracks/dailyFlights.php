@@ -3,14 +3,12 @@
 <?php
 $siteTimezone = new DateTimeZone('Europe/London');
 $trackerTimezone = new DateTimeZone('UTC');
-// $offset = $siteTimezone->getOffset($trackerTimezone);
 
 // Create a DateTime object with the current time and the tracker timezone
 $currentTimeInTrackerTimezone = new DateTime('now', $trackerTimezone);
 
 // Get the offset using the DateTime object in the site timezone
 $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
-
 ?>
 
 
@@ -115,7 +113,6 @@ $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
 
                         $landing_timestamp = $landing_time ? $landing_time->format('H:i:s') : $row['status'];
                         $launch_height = round($row['launch_height'] * 3.28084);
-                        
                         $chartLeadTime = new DateTime('now -11 Minutes');
                         
                         $flight_path = null;
@@ -126,6 +123,7 @@ $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
                         //         $flight_path = '/flight/' . $row['address'] . '/' . $takeoff_time_utc->format('Y-m-d-H-i-s');
                         //     }
                         // }
+
                         
                         if ($takeoff_time && $landing_time) {
                             $duration = date_diff($takeoff_time, $landing_time)->format('%h:%I:%S');
@@ -225,8 +223,6 @@ $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
         </div>
     </div>
     <?php include('includes/footer.html'); ?>
-
     <?php include('includes/navbar_toggle.php'); ?>
-
 </body>
 </html>
