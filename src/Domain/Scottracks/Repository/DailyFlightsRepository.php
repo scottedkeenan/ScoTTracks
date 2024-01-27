@@ -25,6 +25,22 @@ class DailyFlightsRepository
         $this->connection = $connection;
     }
 
+    public function getFlight($address, $takeoffTime): array
+    {
+        $sql = "
+                    SELECT daily_flights.*, toff.name AS takeoff_airfield_name, lndg.name AS landing_airfield_name
+                    FROM daily_flights 
+                    LEFT JOIN airfields toff ON daily_flights.takeoff_airfield = `toff`.`id`
+                    LEFT JOIN airfields lndg ON daily_flights.landing_airfield = `lndg`.`id`
+                    WHERE takeoff_timestamp = '$takeoffTime'
+                    AND address = '$address';
+                ";
+
+        return $this->connection->query($sql)->fetchAll();
+
+    }
+
+
     public function getDailyFlights($airfieldID, $showDate, $order='ASC'): array
     {
         $sql = "
@@ -59,7 +75,6 @@ class DailyFlightsRepository
                     FROM daily_flights
                     INNER JOIN airfields a ON daily_flights.takeoff_airfield = a.id
                     WHERE takeoff_airfield IS NOT NULL
-                    AND takeoff_airfield != 'unknown'
                 ";
         $result = [];
         $data = $this->connection->query($query)->fetchAll();
@@ -78,7 +93,6 @@ class DailyFlightsRepository
 //                    FROM daily_flights
 //                    INNER JOIN airfields ON daily_flights.takeoff_airfield = airfields.name
 //                    WHERE takeoff_airfield IS NOT NULL
-//                    AND takeoff_airfield != 'unknown'
 //                ";
 //        $data = $this->connection->query($query)->fetchAll();
 //
@@ -98,7 +112,6 @@ class DailyFlightsRepository
                     FROM daily_flights
                     INNER JOIN airfields a ON daily_flights.takeoff_airfield = a.id
                     WHERE takeoff_airfield IS NOT NULL
-                    AND takeoff_airfield != 'unknown'
                 ";
 
         $result = [];
@@ -120,7 +133,6 @@ class DailyFlightsRepository
                     FROM daily_flights
                     INNER JOIN airfields a ON daily_flights.takeoff_airfield = a.id
                     WHERE takeoff_airfield IS NOT NULL
-                    AND takeoff_airfield != 'unknown'
                     AND daily_flights.takeoff_timestamp > current_date
                     GROUP BY takeoff_airfield
                     ORDER BY name;
@@ -143,7 +155,6 @@ class DailyFlightsRepository
                     FROM daily_flights
                     INNER JOIN airfields a ON daily_flights.takeoff_airfield = a.id
                     WHERE takeoff_airfield IS NOT NULL
-                    AND takeoff_airfield != 'unknown'
                     AND country_code = '$countryCode'
                     ORDER BY name;
                 ";
@@ -169,7 +180,6 @@ class DailyFlightsRepository
                     FROM daily_flights
                     INNER JOIN airfields ON daily_flights.takeoff_airfield = airfields.id
                     WHERE takeoff_airfield IS NOT NULL
-                    AND takeoff_airfield != 'unknown'
                     AND daily_flights.takeoff_timestamp BETWEEN $insertDate AND $insertDate + INTERVAL 1 DAY
                     AND country_code = '$countryCode'
                     GROUP BY takeoff_airfield

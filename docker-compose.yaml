@@ -5,7 +5,7 @@ services:
       context: ./
       dockerfile: DevBox.DockerFile
     ports:
-      - "81:80"
+      - "80:80"
       - "444:443"
     volumes:
       - ./:/var/www

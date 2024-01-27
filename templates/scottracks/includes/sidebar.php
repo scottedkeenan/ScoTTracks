@@ -19,10 +19,10 @@
                     <a href="/airfields/400">Syerston</a>
                 </li>
                 <li>
-                    <a href="/airfields/226">Lasham</a>
+                    <a href="/airfields/275">Milfield</a>
                 </li>
                 <li>
-                    <a href="/airfields/2541">Saint-Auban</a>
+                    <a href="/airfields/393">Strubby</a>
                 </li>
                 <li>
                     <a href="/airfields/all">All</a>
@@ -51,26 +51,26 @@
 <!--            </ul>-->
 <!--        </li>-->
 
-        <li>
-            <a href="#countriesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Countries</a>
-            <ul class="collapse list-unstyled" id="countriesSubmenu">
-                <li>
-                    <a href="/countries/GB">UK</a>
-                </li>
-                <li>
-                    <a href="/countries/FR">France</a>
-                </li>
-                <li>
-                    <a href="/countries/AU">Australia</a>
-                </li>
-                <li>
-                    <a href="/countries/NZ">New Zealand</a>
-                </li>
-                <li>
-                    <a href="/countries">All</a>
-                </li>
-            </ul>
-        </li>
+        <!--<li>-->
+        <!--    <a href="#countriesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Countries</a>-->
+        <!--    <ul class="collapse list-unstyled" id="countriesSubmenu">-->
+        <!--        <li>-->
+        <!--            <a href="/countries/GB">UK</a>-->
+        <!--        </li>-->
+        <!--        <li>-->
+        <!--            <a href="/countries/FR">France</a>-->
+        <!--        </li>-->
+        <!--        <li>-->
+        <!--            <a href="/countries/AU">Australia</a>-->
+        <!--        </li>-->
+        <!--        <li>-->
+        <!--            <a href="/countries/NZ">New Zealand</a>-->
+        <!--        </li>-->
+        <!--        <li>-->
+        <!--            <a href="/countries">All</a>-->
+        <!--        </li>-->
+        <!--    </ul>-->
+        <!--</li>-->
 
 <!--        <li>-->
 <!--            <a href="#statsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Stats</a>-->
@@ -83,9 +83,16 @@
         <li>
             <a href="mailto:scott@scottedkeenan.co.uk">Contact</a>
         </li>
-        <li>
-            <a href="https://www.google.com/maps/d/u/0/viewer?mid=12Mkja9NRonB9biUhZI4Pu2hoIrVog6Us&ll=54.08888904285983%2C-0.8666942000000017&z=7">Range</a>
+        <!--<li>-->
+        <!--    <a href="https://www.google.com/maps/d/u/0/viewer?mid=12Mkja9NRonB9biUhZI4Pu2hoIrVog6Us&ll=54.08888904285983%2C-0.8666942000000017&z=7">Range</a>-->
 
+        <!--</li>-->
+        
+        <!--<li>-->
+        <!--    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="scottedkeenan" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>-->
+        <!--</li>-->
+        <li>
+            <a href="https://www.buymeacoffee.com/scottedkeenan" target="_blank">Buy Me A Coffee <img src="/images/bmc-logo-no-background.png" alt="Buy me a coffee icon" width="8%"></a>
         </li>
     </ul>
 </nav>
