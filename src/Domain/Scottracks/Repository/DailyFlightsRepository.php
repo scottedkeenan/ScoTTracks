@@ -41,7 +41,7 @@ class DailyFlightsRepository
     }
 
 
-    public function getDailyFlights($airfieldID, $showDate, $order='ASC'): array
+    public function getDailyFlights($airfieldID, $showDate, $order = 'ASC'): array
     {
         $sql = "
                     SELECT daily_flights.*, toff.name AS takeoff_airfield_name, lndg.name AS landing_airfield_name
@@ -172,7 +172,7 @@ class DailyFlightsRepository
 
     }
 
-    public function getDistinctFlownAirfieldNamesByCountryDate($countryCode, $date=null): array
+    public function getDistinctFlownAirfieldNamesByCountryDate($countryCode, $date = null): array
     {
         $insertDate = $date ? "'$date'" : 'current_date';
         $query = "
@@ -211,5 +211,125 @@ class DailyFlightsRepository
         return $this->connection->query($query)->fetchAll();
 
     }
+
+    public function getTopAirfieldsByLaunchesForWeekStarting($startDate, $limit): array
+    {
+        // Prepare the SQL statement with placeholders
+        $query = "
+        SELECT af.id, af.name, count(*) as flight_count FROM daily_flights df
+        JOIN airfields af
+        ON takeoff_airfield = af.id
+        WHERE takeoff_timestamp > :startDate
+          AND takeoff_timestamp <= (:startDate + INTERVAL 1 WEEK)
+        AND af.country_code = 'GB'
+        GROUP BY takeoff_airfield
+        ORDER BY flight_count DESC
+        LIMIT :limit;
+    ";
+
+        // Prepare the SQL statement with the connection
+        $statement = $this->connection->prepare($query);
+
+        // Bind parameters to the prepared statement
+        $statement->bindParam(':startDate', $startDate, PDO::PARAM_STR);
+        $statement->bindParam(':limit', $limit, PDO::PARAM_INT);
+
+        // Execute the prepared statement
+        $statement->execute();
+
+        // Fetch all rows as an associative array
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getWeekOnWeekLaunchDifferenceByAirfieldForWeekStarting($startDate): array
+    {
+        $query = "
+        SELECT *
+FROM (
+    SELECT
+        id,
+        name,
+        total_flight_count,
+        later_week_flight_count,
+        earlier_week_flight_count,
+        later_week_flight_count - earlier_week_flight_count as difference,
+        CASE WHEN earlier_week_flight_count > 0
+                 THEN (later_week_flight_count - earlier_week_flight_count) / CAST(earlier_week_flight_count AS DECIMAL(10,2)) * 100
+             ELSE NULL
+            END as percentage_change
+    FROM (
+             SELECT
+                 af.id,
+                 af.name,
+                 COUNT(*) as total_flight_count,
+                 SUM(CASE WHEN takeoff_timestamp >= :startDate AND takeoff_timestamp < (:startDate + INTERVAL 1 WEEK) THEN 1 ELSE 0 END) as later_week_flight_count,
+                 SUM(CASE WHEN takeoff_timestamp >= (:startDate - INTERVAL 1 WEEK) AND takeoff_timestamp < :startDate THEN 1 ELSE 0 END) as earlier_week_flight_count
+             FROM
+                 daily_flights
+                     JOIN airfields af ON takeoff_airfield = af.id
+             WHERE
+                     takeoff_timestamp >= :startDate - INTERVAL 1 WEEK AND
+                     takeoff_timestamp < :startDate + INTERVAL 1 WEEK
+               AND af.country_code = 'GB'
+             GROUP BY
+                 takeoff_airfield
+         ) AS FlightCounts
+) AS FinalQuery
+ORDER BY percentage_change DESC
+LIMIT 10;
+              
+        ";
+
+        // Prepare the SQL statement with the connection
+        $statement = $this->connection->prepare($query);
+
+        // Bind parameters to the prepared statement
+        $statement->bindParam(':startDate', $startDate, PDO::PARAM_STR);
+
+        // Execute the prepared statement
+        $statement->execute();
+
+        // Fetch all rows as an associative array
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
+    }
+
+    public function getTotalFlightTimesForWeek($startDate) {
+        $query = "
+                SELECT name,
+               SUM(flight_time)as total_flight_time,
+               COUNT(DISTINCT registration) as aircraft_count,
+            (SUM(flight_time)/ COUNT(DISTINCT registration)) as minutes_per_aircaft
+            FROM (SELECT af.id,
+                      af.name,
+                      registration,
+                      takeoff_timestamp,
+                      landing_timestamp,
+                      TIMESTAMPDIFF(MINUTE, takeoff_timestamp, landing_timestamp) as flight_time
+                       FROM daily_flights df
+                                JOIN airfields af ON takeoff_airfield = af.id
+                       WHERE takeoff_timestamp > :startDate
+                         AND takeoff_timestamp <= (:startDate + INTERVAL 1 WEEK)
+                         AND takeoff_timestamp IS NOT NULL
+                         AND landing_timestamp IS NOT NULL
+                         AND aircraft_type = 1
+                         AND af.country_code = 'GB'
+        ) AS flight_times
+        GROUP BY id
+        ORDER BY total_flight_time DESC;        
+        ";
+
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam('startDate', $startDate);
+
+        // Execute the prepared statement
+        $statement->execute();
+
+        // Fetch all rows as an associative array
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
 }
 

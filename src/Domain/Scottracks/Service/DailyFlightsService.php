@@ -108,4 +108,28 @@ final class DailyFlightsService
 
         return $averages;
     }
+
+    public function getTopAirfieldsByLaunchesForWeek(): array
+    {
+        $weekStartDate = date('Y-m-d', strtotime('last monday'));
+        $topFiveAirfields = $this->repository->getTopAirfieldsByLaunchesForWeekStarting($weekStartDate, 10);
+
+        return $topFiveAirfields;
+    }
+
+    public function getWeekOnWeekDifference(): array
+    {
+
+        $weekStartDate = date('Y-m-d', strtotime('monday last week'));
+        $data = $this->repository->getWeekOnWeekLaunchDifferenceByAirfieldForWeekStarting($weekStartDate);
+        $weekOnWeekDifference['week_start_date'] = $weekStartDate;
+        $weekOnWeekDifference['week_on_week_data'] = $data;
+        return $weekOnWeekDifference;
+    }
+
+    public function getWeeklyFlightTimes() :array
+    {
+        $weekStartDate = date('Y-m-d', strtotime('monday last week'));
+        return $this->repository->getTotalFlightTimesForWeek($weekStartDate);
+    }
 }
