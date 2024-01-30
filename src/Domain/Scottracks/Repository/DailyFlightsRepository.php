@@ -275,8 +275,7 @@ FROM (
                  takeoff_airfield
          ) AS FlightCounts
 ) AS FinalQuery
-ORDER BY percentage_change DESC
-LIMIT 10;
+ORDER BY difference DESC;
               
         ";
 
@@ -297,28 +296,30 @@ LIMIT 10;
 
     public function getTotalFlightTimesForWeek($startDate) {
         $query = "
-                SELECT name,
-               SUM(flight_time)as total_flight_time,
-               COUNT(DISTINCT registration) as aircraft_count,
-            (SUM(flight_time)/ COUNT(DISTINCT registration)) as minutes_per_aircaft
-            FROM (SELECT af.id,
-                      af.name,
-                      registration,
-                      takeoff_timestamp,
-                      landing_timestamp,
-                      TIMESTAMPDIFF(MINUTE, takeoff_timestamp, landing_timestamp) as flight_time
-                       FROM daily_flights df
-                                JOIN airfields af ON takeoff_airfield = af.id
-                       WHERE takeoff_timestamp > :startDate
-                         AND takeoff_timestamp <= (:startDate + INTERVAL 1 WEEK)
-                         AND takeoff_timestamp IS NOT NULL
-                         AND landing_timestamp IS NOT NULL
-                         AND aircraft_type = 1
-                         AND af.country_code = 'GB'
-        ) AS flight_times
-        GROUP BY id
-        ORDER BY total_flight_time DESC;        
-        ";
+                SELECT
+                name,
+                id,
+                SUM(flight_time)as total_flight_time,
+                COUNT(DISTINCT registration) as aircraft_count,
+                (SUM(flight_time)/ COUNT(DISTINCT registration)) as minutes_per_aircaft
+                    FROM (SELECT af.id,
+                          af.name,
+                          registration,
+                          takeoff_timestamp,
+                          landing_timestamp,
+                          TIMESTAMPDIFF(MINUTE, takeoff_timestamp, landing_timestamp) as flight_time
+                           FROM daily_flights df
+                                    JOIN airfields af ON takeoff_airfield = af.id
+                           WHERE takeoff_timestamp > :startDate
+                             AND takeoff_timestamp <= (:startDate + INTERVAL 1 WEEK)
+                             AND takeoff_timestamp IS NOT NULL
+                             AND landing_timestamp IS NOT NULL
+                             AND aircraft_type = 1
+                             AND af.country_code = 'GB'
+                ) AS flight_times
+                GROUP BY id
+                ORDER BY total_flight_time DESC;
+                ";
 
         $statement = $this->connection->prepare($query);
         $statement->bindParam('startDate', $startDate);

@@ -123,7 +123,8 @@ final class DailyFlightsService
         $weekStartDate = date('Y-m-d', strtotime('monday last week'));
         $data = $this->repository->getWeekOnWeekLaunchDifferenceByAirfieldForWeekStarting($weekStartDate);
         $weekOnWeekDifference['week_start_date'] = $weekStartDate;
-        $weekOnWeekDifference['week_on_week_data'] = $data;
+        $weekOnWeekDifference['week_on_week_pos'] = array_slice($data, 0, 10, true);
+        $weekOnWeekDifference['week_on_week_neg'] = array_slice($data, -10, 10, true);
         return $weekOnWeekDifference;
     }
 
