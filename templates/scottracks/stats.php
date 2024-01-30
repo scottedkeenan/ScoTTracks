@@ -46,8 +46,13 @@
                 echo sprintf('Change in launches Week on Week %s / %s',
                     $firstWeekDate->format('d-m-Y'),
                     $secondWeekDate->format('d-m-Y')); ?></h5>
+<<<<<<< HEAD
                 <div class="row m-1">
                     <div class="float-left p-1">
+=======
+                <div class="row">
+                    <div class="col">
+>>>>>>> 125fbc3ee363607ec85f7a6941024e3e3e857fc7
                         <h6>Increases</h6>
                         <div class="table-responsive">
                             <table class="table table-bordered table-sm w-auto">
@@ -68,7 +73,11 @@
                             </table>
                         </div>
                     </div>
+<<<<<<< HEAD
                     <div class="float-left p-1">
+=======
+                    <div class="col">
+>>>>>>> 125fbc3ee363607ec85f7a6941024e3e3e857fc7
                         <h6>Decreases</h6>
                         <div class="table-responsive">
                             <table class="table table-bordered table-sm w-auto">

@@ -2,9 +2,11 @@
 
 use DI\ContainerBuilder;
 use Slim\App;
+use Slim\Factory\AppFactory;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+// Create DI ContainerBuilder instance
 $containerBuilder = new ContainerBuilder();
 
 // Set up settings
@@ -53,7 +55,6 @@ $customErrorHandler = function (
 
      // Write the error details to the response body
      $response->getBody()->write($errorDetails);
-
 
     // Set the content type and return the response with an appropriate status code
     return $response

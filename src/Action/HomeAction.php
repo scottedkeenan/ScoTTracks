@@ -24,8 +24,7 @@ final class HomeAction
     ): ResponseInterface {
 
         //invoke the domain
-
-        if ($request->getQueryParams()['date']) {
+        if (isset($request->getQueryParams()['date'])) {
             $d = DateTime::createFromFormat('Y-m-d', $request->getQueryParams()['date']);
             if ($d && $d->format('Y-m-d') === $request->getQueryParams()['date'])  {
                 $data['date'] = $request->getQueryParams()['date'];

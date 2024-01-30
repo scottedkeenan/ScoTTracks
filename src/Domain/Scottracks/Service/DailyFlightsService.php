@@ -24,6 +24,12 @@ final class DailyFlightsService
         $this->repository = $repository;
     }
 
+    public function getFlight(string $address, $takeoffTime): array
+    {
+        // Get flight
+        return $this->repository->getFlight($address, $takeoffTime);
+    }
+
     public function getDailyFlights(string $airfieldID, $showDate, $order): array
     {
         // Get daily flights
@@ -101,5 +107,30 @@ final class DailyFlightsService
         }
 
         return $averages;
+    }
+
+    public function getTopAirfieldsByLaunchesForWeek(): array
+    {
+        $weekStartDate = date('Y-m-d', strtotime('last monday'));
+        $topFiveAirfields = $this->repository->getTopAirfieldsByLaunchesForWeekStarting($weekStartDate, 10);
+
+        return $topFiveAirfields;
+    }
+
+    public function getWeekOnWeekDifference(): array
+    {
+
+        $weekStartDate = date('Y-m-d', strtotime('monday last week'));
+        $data = $this->repository->getWeekOnWeekLaunchDifferenceByAirfieldForWeekStarting($weekStartDate);
+        $weekOnWeekDifference['week_start_date'] = $weekStartDate;
+        $weekOnWeekDifference['week_on_week_pos'] = array_slice($data, 0, 10, true);
+        $weekOnWeekDifference['week_on_week_neg'] = array_slice($data, -10, 10, true);
+        return $weekOnWeekDifference;
+    }
+
+    public function getWeeklyFlightTimes() :array
+    {
+        $weekStartDate = date('Y-m-d', strtotime('monday last week'));
+        return $this->repository->getTotalFlightTimesForWeek($weekStartDate);
     }
 }

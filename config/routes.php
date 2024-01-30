@@ -19,7 +19,10 @@ return function (App $app) {
     $app->get('/countries', \App\Action\CountriesAction::class)->setName('countries');
     $app->get('/countries/{country}', \App\Action\AirfieldsAction::class)->setName('country');
 //    $app->get('countries/{country}/stats', \App\Action\CountryStatsAction::class)->setName('countrystats');
+    $app->get('/stats', \App\Action\StatsAction::class)->setName('averages');
     $app->get('/stats/averages', \App\Action\StatsAveragesAction::class)->setName('averages');
+
+    $app->get('/flight/{address}/{takeoff_time}', \App\Action\FlightAction::class)->setName('flight');
 
 };
 
