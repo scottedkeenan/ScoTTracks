@@ -15,6 +15,7 @@ $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
 <html lang="en">
 <head>
     <?php include('includes/head.phtml'); ?>
+    <title></title>
 </head>
 <body>
     <div class="wrapper">
@@ -28,19 +29,19 @@ $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
             <?php
                 // build dates array
                 $dates = [];
-                sort($dates);
                 foreach ($data['dates'] as $row) {
-                    array_push($dates, $row['cast(reference_timestamp AS date)']);
+                    $dates[] = $row['flight_date'];
                 }
-                array_push($dates, date('Y-m-d'));
+                $dates[] = date('Y-m-d');
+                $dates[] = $data['show_date'];
                 $dates = array_unique($dates);
-
+                sort($dates);
                 function date_sort($a, $b) {
                     return strtotime($b) - strtotime($a);
                 }
                 usort($dates, "date_sort");
 
-                $dateIndex = array_search($data['show_date'] ,$dates);
+                $dateIndex = array_search($data['show_date'], $dates);
 
                 // -24 hours for OGN data policy (no redistribute)
                 $distributionLandingCutoff = new DateTime('now -24 Hours');
@@ -97,7 +98,7 @@ $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
                             $takeoff_time->setTimeZone($siteTimezone);
                         }
 
-                        $takeoff_airfield = $row['takeoff_airfield'] ? $row['takeoff_airfield']: '--';
+                        $takeoff_airfield = $row['takeoff_airfield'] ?: '--';
 
                         $landing_time = $row['landing_timestamp'] ? new DateTime($row['landing_timestamp'], $trackerTimezone) : null;
                         if ($landing_time) {

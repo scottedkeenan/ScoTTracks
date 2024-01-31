@@ -5,7 +5,7 @@
                     <div class="col-sm">
                     <ul class="list-group">
                     <?php
-                    foreach ($data['flown_today'] as $id => $airfield):
+                    foreach ($data['flown_today'] as $id => $airfield_data):
                         $clean_airfield_id = url($id);
                         $url = sprintf('/airfields/%s', $clean_airfield_id);
                         if (isset($data['date'])) {
@@ -13,8 +13,8 @@
                         }
                         ?>
                         <a href="<?php echo $url;?>" class="list-group-item list-group-item-action">
-                            <?php echo ucwords(strtolower($airfield['name'])); ?>
-                            <span class="badge badge-primary badge-pill"><?php echo $airfield['flights']; ?></span>
+                            <?php echo ucwords(strtolower($airfield_data['name'])); ?>
+                            <span class="badge badge-primary badge-pill"><?php echo $airfield_data['flights']; ?></span>
                         </a>
                     <?php endforeach; ?>
                     </ul>

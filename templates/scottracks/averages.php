@@ -36,7 +36,6 @@
             $table_count = 1;
 
             $averages = $data['averages'];
-            print_r($averages);
 
             function cmp($a, $b) {
                 $a = count($a);

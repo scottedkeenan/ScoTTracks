@@ -3,6 +3,7 @@
 namespace App\Domain\Scottracks\Service;
 
 use App\Domain\Scottracks\Repository\DailyFlightsRepository;
+use Slim\Exception\HttpBadRequestException;
 
 /**
  * Service.
@@ -30,12 +31,15 @@ final class DailyFlightsService
         return $this->repository->getFlight($address, $takeoffTime);
     }
 
-    public function getDailyFlights(string $airfieldID, $showDate, $order): array
+    /**
+     * @throws HttpBadRequestException
+     */
+    public function getDailyFlights(string $airfieldID, $showDate, $sortOrder): array
     {
         // Get daily flights
-        $dailyFlights = $this->repository->getDailyFlights($airfieldID, $showDate, $order);
+        $dailyFlights = $this->repository->getDailyFlights($airfieldID, $showDate, $sortOrder);
 
-        // Logging here: User created successfully
+        // Logging here: Got daily flights data
         //$this->logger->info(sprintf('User created successfully: %s', $userId));
 
         return $dailyFlights;
@@ -54,35 +58,55 @@ final class DailyFlightsService
 
     public function getDistinctFlownAirfieldNames(): array
     {
-        //get daily flight dates
         $airfieldNames = $this->repository->getDistinctFlownAirfieldNames();
+        $airfieldsByName = [];
+        foreach ($airfieldNames as $airfield) {
+            $airfieldsByName[$airfield['takeoff_airfield']] = [
+                'name' => $airfield['name'],
+                'icao' => $airfield['icao']];
+        }
 
         // Logging here: User created successfully
         //$this->logger->info(sprintf('User created successfully: %s', $userId));
 
-        return $airfieldNames;
+        return $airfieldsByName;
     }
 
     public function getDistinctAirfieldNamesFlownToday(): array
     {
         //get daily flight dates
         $airfieldNames = $this->repository->getDistinctAirfieldNamesFlownToday();
+        $airfieldsByName = [];
+        foreach ($airfieldNames as $airfield) {
+            $airfieldsByName[$airfield['takeoff_airfield']] = [
+                'name' => $airfield['name'],
+                'icao' => $airfield['icao'],
+                'flights' => $airfield['flights']
+            ];
+        }
 
         // Logging here: User created successfully
         //$this->logger->info(sprintf('User created successfully: %s', $userId));
 
-        return $airfieldNames;
+        return $airfieldsByName;
     }
 
     public function getDistinctFlownAirfieldNamesByCountry($countryCode): array
     {
         //get daily flight dates
         $airfieldNames = $this->repository->getDistinctAirfieldNamesByCountry($countryCode);
+        $airfieldsByName = [];
+        foreach ($airfieldNames as $airfield) {
+            $airfieldsByName[$airfield['takeoff_airfield']] = [
+                'name' => $airfield['name'],
+                'icao' => $airfield['icao']
+            ];
+        }
 
         // Logging here: User created successfully
         //$this->logger->info(sprintf('User created successfully: %s', $userId));
 
-        return $airfieldNames;
+        return $airfieldsByName;
     }
 
     public function getDistinctFlownAirfieldNamesByCountryDate($countryCode, $date=null): array
@@ -90,10 +114,19 @@ final class DailyFlightsService
         //get daily flight dates
         $airfieldNames = $this->repository->getDistinctFlownAirfieldNamesByCountryDate($countryCode, $date);
 
+        $airfieldsByName = [];
+        foreach ($airfieldNames as $airfield) {
+            $airfieldsByName[$airfield['takeoff_airfield']] = [
+                'name' => $airfield['name'],
+                'icao' => $airfield['icao'],
+                'flights' => $airfield['flights']
+            ];
+        }
+
         // Logging here: User created successfully
         //$this->logger->info(sprintf('User created successfully: %s', $userId));
 
-        return $airfieldNames;
+        return $airfieldsByName;
     }
 
     public function getAverageLaunchClimbRates(): array
