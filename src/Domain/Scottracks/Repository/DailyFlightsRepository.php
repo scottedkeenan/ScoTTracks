@@ -67,13 +67,13 @@ class DailyFlightsRepository
     public function getDailyFlightDates($airfieldId): array
     {
         $query = "
-                    SELECT DISTINCT cast(reference_timestamp AS date)
+                    SELECT DISTINCT cast(reference_timestamp AS date) `flight_date`
                     FROM daily_flights
                     WHERE takeoff_airfield = :airfieldId
                     OR landing_airfield = :airfieldId;
                 ";
         $statement = $this->connection->prepare($query);
-        $statement->bindParam('airfieldId', $airfieldID, PDO::PARAM_INT);
+        $statement->bindParam('airfieldId', $airfieldId, PDO::PARAM_INT);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
