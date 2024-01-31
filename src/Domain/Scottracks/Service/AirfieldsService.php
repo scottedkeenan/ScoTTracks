@@ -54,7 +54,7 @@ final class AirfieldsService
 //        } else {
 //            return 'no name';
 //        }
-        return $name[0]['name'];
+        return $name[0]['name'] ?? false;
     }
 
     public function getAirfieldTrackedByID($airfieldID): bool

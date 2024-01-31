@@ -15,6 +15,7 @@ $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
 <html lang="en">
 <head>
     <?php include('includes/head.phtml'); ?>
+    <title></title>
 </head>
 <body>
     <div class="wrapper">
@@ -97,7 +98,7 @@ $offset = $siteTimezone->getOffset($currentTimeInTrackerTimezone);
                             $takeoff_time->setTimeZone($siteTimezone);
                         }
 
-                        $takeoff_airfield = $row['takeoff_airfield'] ? $row['takeoff_airfield']: '--';
+                        $takeoff_airfield = $row['takeoff_airfield'] ?: '--';
 
                         $landing_time = $row['landing_timestamp'] ? new DateTime($row['landing_timestamp'], $trackerTimezone) : null;
                         if ($landing_time) {
