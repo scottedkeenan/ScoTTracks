@@ -32,29 +32,28 @@ $customErrorHandler = function (
 ) use ($app) {
     // Log the error if needed
     if ($logErrors) {
-        // Log the error using your preferred logging mechanism
     }
 
     // Customize the error response
     $response = $app->getResponseFactory()->createResponse();
-//    $response->getBody()->write("You've landed out! (An error occurred). Please try again later.");
+    $response->getBody()->write("You've landed out! (An error occurred). Please try again later.");
 
      // Extract information from the exception
-     $message = $exception->getMessage();
-     $statusCode = $exception->getCode();
-     $file = $exception->getFile();
-     $line = $exception->getLine();
-     $stackTrace = $exception->getTraceAsString();
+//     $message = $exception->getMessage();
+//     $statusCode = $exception->getCode();
+//     $file = $exception->getFile();
+//     $line = $exception->getLine();
+//     $stackTrace = $exception->getTraceAsString();
 
-     // Prepare a readable error message
-     $errorDetails = "Message: $message\n";
-     $errorDetails .= "Code: $statusCode\n";
-     $errorDetails .= "File: $file\n";
-     $errorDetails .= "Line: $line\n";
-     $errorDetails .= "Stack Trace:\n$stackTrace\n";
+     // Prepare a readable error
+//     $errorDetails = "Message: $message\n";
+//     $errorDetails .= "Code: $statusCode\n";
+//     $errorDetails .= "File: $file\n";
+//     $errorDetails .= "Line: $line\n";
+//     $errorDetails .= "Stack Trace:\n$stackTrace\n";
 
      // Write the error details to the response body
-     $response->getBody()->write($errorDetails);
+//     $response->getBody()->write($errorDetails);
 
     // Set the content type and return the response with an appropriate status code
     return $response

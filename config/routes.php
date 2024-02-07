@@ -1,30 +1,28 @@
 <?php
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use App\Action\AirfieldsAction;
+use App\Action\AllAirfieldsAction;
+use App\Action\CountriesAction;
+use App\Action\DailyFlightsAction;
+use App\Action\FlightAction;
+use App\Action\HomeAction;
+use App\Action\StatsAction;
+use App\Action\StatsAveragesAction;
 use Slim\App;
 
 
 return function (App $app) {
 
-    $app->get('/', \App\Action\HomeAction::class)->setName('home');
-//    $app->get('sites/stats', \App\Action\AllSitesStatsAction::class)->setName('allsitesstats');
-//    $app->get('sites/{airfield_name}/stats', \App\Action\StatsForSiteAction::class)->setName('statsforsite');
-//    $app->get('/airfields', \App\Action\AirfieldsAction::class)->setName('airfields');
-    $app->get('/airfields/all', \App\Action\AllAirfieldsAction::class)->setName('allairfields');
-    $app->get('/airfields/{airfield_id}', \App\Action\DailyFlightsAction::class)->setName('airfield');
-    $app->get('/airfields/{airfield_id}/{date}', \App\Action\DailyFlightsAction::class)->setName('airfielddate');
+    $app->get('/', HomeAction::class)->setName('home');
+    $app->get('/airfields/all', AllAirfieldsAction::class)->setName('allairfields');
+    $app->get('/airfields/{airfield_id}', DailyFlightsAction::class)->setName('airfield');
+    $app->get('/airfields/{airfield_id}/{date}', DailyFlightsAction::class)->setName('airfielddate');
 
-    $app->get('/countries', \App\Action\CountriesAction::class)->setName('countries');
-    $app->get('/countries/{country}', \App\Action\AirfieldsAction::class)->setName('country');
-//    $app->get('countries/{country}/stats', \App\Action\CountryStatsAction::class)->setName('countrystats');
-    $app->get('/stats', \App\Action\StatsAction::class)->setName('stats');
-    $app->get('/stats/averages', \App\Action\StatsAveragesAction::class)->setName('averages');
+    $app->get('/countries', CountriesAction::class)->setName('countries');
+    $app->get('/countries/{country}', AirfieldsAction::class)->setName('country');
 
-    $app->get('/flight/{address}/{takeoff_time}', \App\Action\FlightAction::class)->setName('flight');
+    $app->get('/stats', StatsAction::class)->setName('stats');
+    $app->get('/stats/averages', StatsAveragesAction::class)->setName('averages');
 
+    $app->get('/flight/{address}/{takeoff_time}', FlightAction::class)->setName('flight');
 };
-
-

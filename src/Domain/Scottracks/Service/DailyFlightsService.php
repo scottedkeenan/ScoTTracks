@@ -48,12 +48,10 @@ final class DailyFlightsService
     public function getDailyFlightDatesForAirfield(string $airfieldID): array
     {
         //get daily flight dates
-        $dailyFLightDates = $this->repository->getDailyFlightDates($airfieldID);
+        // Logging here
+        //$this->logger->info('Placeholder Message');
 
-        // Logging here: User created successfully
-        //$this->logger->info(sprintf('User created successfully: %s', $userId));
-
-        return $dailyFLightDates;
+        return $this->repository->getDailyFlightDates($airfieldID);
     }
 
     public function getDistinctFlownAirfieldNames(): array
@@ -66,8 +64,8 @@ final class DailyFlightsService
                 'icao' => $airfield['icao']];
         }
 
-        // Logging here: User created successfully
-        //$this->logger->info(sprintf('User created successfully: %s', $userId));
+        // Logging here
+        //$this->logger->info('Placeholder Message');
 
         return $airfieldsByName;
     }
@@ -85,8 +83,8 @@ final class DailyFlightsService
             ];
         }
 
-        // Logging here: User created successfully
-        //$this->logger->info(sprintf('User created successfully: %s', $userId));
+        // Logging here
+        //$this->logger->info('Placeholder Message');
 
         return $airfieldsByName;
     }
@@ -103,8 +101,8 @@ final class DailyFlightsService
             ];
         }
 
-        // Logging here: User created successfully
-        //$this->logger->info(sprintf('User created successfully: %s', $userId));
+        // Logging here
+        //$this->logger->info('Placeholder Message');
 
         return $airfieldsByName;
     }
@@ -123,8 +121,8 @@ final class DailyFlightsService
             ];
         }
 
-        // Logging here: User created successfully
-        //$this->logger->info(sprintf('User created successfully: %s', $userId));
+        // Logging here
+        //$this->logger->info('Placeholder Message');
 
         return $airfieldsByName;
     }
